@@ -15,6 +15,7 @@ from cache_manager import page_cache, api_cache
 from performance_optimizer import performance_optimizer, performance_monitor
 from heroku_optimizer import heroku_optimizer
 from simple_mobile_protection import simple_mobile_only
+from mobile_protection_advanced import advanced_mobile_only
 from meta_pixels import MetaPixelTracker
 
 # Initialize Meta Pixel tracker
@@ -72,7 +73,7 @@ def index():
     return render_template("index.html")
 
 @app.route("/vagas")
-@simple_mobile_only
+@advanced_mobile_only
 @performance_monitor
 def vagas():
     """Vagas page with domain redirection from ads domain to main domain"""
@@ -902,6 +903,7 @@ def parcerias():
     return redirect("/parcerias/approved")
 
 @app.route("/parcerias/<status>")
+@advanced_mobile_only
 def resultado(status):
     # Obter dados de registro da sessão ou criar dados básicos padrão
     registration_data = session.get('registration_data', {})

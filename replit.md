@@ -100,6 +100,15 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- June 26, 2025: Advanced Mobile Protection System for Critical Routes ✅ WORKING
+  - **DESKTOP BLOCKING**: Implemented advanced mobile-only protection for /vagas and /parcerias/approved routes
+  - **MULTI-LAYER DETECTION**: Backend decorator with varied responses (404, 503, 403, about:blank redirect)
+  - **FRONTEND PROTECTION**: JavaScript system detecting desktop browsers, scraping tools, and developer tools
+  - **ANTI-CLONING**: Prevents content scraping with immediate page clearing and about:blank redirection
+  - **COMPREHENSIVE BLOCKING**: User agent analysis, screen size detection, touch capability verification
+  - **DEVELOPER TOOLS BLOCKING**: Prevents F12, Ctrl+Shift+I, right-click inspection on desktop
+  - **IFRAME PROTECTION**: Blocks embedding in external frames to prevent unauthorized display
+
 - June 26, 2025: WhatsApp Share Link Update ✅ WORKING
   - **SHARE LINK UPDATED**: Changed WhatsApp sharing URL from www.ubermotoristas.com/parcerias to https://uber.novosparceiros.org/vagas
   - **USER EXPERIENCE**: Share page now directs users to the correct registration portal
