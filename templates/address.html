@@ -1,0 +1,511 @@
+{% extends "layout.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/* Remove blue focus and add 0px border radius */
+input[type="text"], input[type="email"], input[type="tel"], select {
+    border-radius: 0px !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, select:focus {
+    border-color: #000 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    ring-color: #000 !important;
+}
+
+/* Remove all blue colors and replace with black */
+.focus\:border-blue-500:focus { border-color: #000 !important; }
+.focus\:ring-blue-500:focus { ring-color: #000 !important; }
+.border-blue-500 { border-color: #000 !important; }
+.text-blue-500 { color: #000 !important; }
+.bg-blue-500 { background-color: #000 !important; }
+.focus\:border-blue-600:focus { border-color: #000 !important; }
+.focus\:ring-blue-600:focus { ring-color: #000 !important; }
+
+/* Force black focus states */
+.focus\:border-black:focus {
+    border-color: #000000 !important;
+    box-shadow: none !important;
+}
+
+.focus\:ring-black:focus {
+    ring-color: #000000 !important;
+    box-shadow: none !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Programa de Incentivo para Motoristas</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Receba R$ 500 mensais com nosso programa de adesivação</p>
+        <div class="h-1 w-32 bg-black"></div>
+    </div>
+
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-prosegur-black mb-2 font-heading">Programa de Adesivação Uber</h2>
+            <p class="text-prosegur-gray text-sm font-body">
+                Participe do nosso programa exclusivo de adesivação e receba R$ 500,00 mensais. Complete seus dados de endereço para recebimento do kit de adesivos oficial e documentação do programa de parceria.
+            </p>
+        </div>
+
+        <form class="space-y-6 max-w-2xl mx-auto" method="POST">
+            <div>
+                <label for="zip_code" class="block text-sm font-medium text-black font-body">CEP *</label>
+                <input type="text" id="zip_code" name="zip_code" required
+                    inputmode="numeric"
+                    pattern="\d{5}-?\d{3}"
+                    maxlength="9"
+                    class="mt-1 block w-full border-gray-300 shadow-sm py-3 pl-4 font-semibold text-gray-700 bg-gray-50 font-body"
+                    style="border-radius: 0px !important;">
+            </div>
+
+            <div>
+                <label for="address" class="block text-sm font-medium text-black font-body">Endereço *</label>
+                <input type="text" id="address" name="address" required
+                    class="mt-1 block w-full border-gray-300 shadow-sm py-3 pl-4 font-semibold text-gray-700 bg-gray-50 font-body"
+                    style="border-radius: 0px !important;">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="number" class="block text-sm font-medium text-black font-body">Número *</label>
+                    <input type="text" id="number" name="number" required
+                        class="mt-1 block w-full border-gray-300 shadow-sm py-3 pl-4 font-semibold text-gray-700 bg-gray-50 font-body"
+                        style="border-radius: 0px !important;">
+                </div>
+                <div>
+                    <label for="complement" class="block text-sm font-medium text-black font-body">Complemento</label>
+                    <input type="text" id="complement" name="complement"
+                        class="mt-1 block w-full border-gray-300 shadow-sm py-3 pl-4 font-semibold text-gray-700 bg-gray-50 font-body"
+                        style="border-radius: 0px !important;">
+                </div>
+            </div>
+
+            <div>
+                <label for="neighborhood" class="block text-sm font-medium text-black font-body">Bairro *</label>
+                <input type="text" id="neighborhood" name="neighborhood" required
+                    class="mt-1 block w-full border-gray-300 shadow-sm py-3 pl-4 font-semibold text-gray-700 bg-gray-50 font-body"
+                    style="border-radius: 0px !important;">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="city" class="block text-sm font-medium text-black font-body">Cidade *</label>
+                    <input type="text" id="city" name="city" required
+                        class="mt-1 block w-full border-gray-300 shadow-sm py-3 pl-4 font-semibold text-gray-700 bg-gray-50 font-body"
+                        style="border-radius: 0px !important;">
+                </div>
+                <div>
+                    <label for="state" class="block text-sm font-medium text-black font-body">Estado *</label>
+                    <select id="state" name="state" required
+                        class="mt-1 block w-full border-gray-300 shadow-sm py-3 pl-4 font-semibold text-gray-700 bg-gray-50 font-body"
+                        style="border-radius: 0px !important;">
+                        <option value="">Selecione...</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Adesivo Information -->
+            <div class="mb-6">
+                <img src="https://i.ibb.co/1JQ5QnxH/1-1.png" 
+                     alt="Adesivo Uber" 
+                     class="w-full h-auto mb-4" style="max-height: 300px; object-fit: contain;">
+                
+                <!-- Sticker Details -->
+                <div class="mt-4 text-left">
+                    <p class="text-sm text-gray-700 mb-1">• Adesivo eletrostático - não usa cola</p>
+                    <p class="text-sm text-gray-700 mb-1">• Não danifica o vidro do veículo</p>
+                    <p class="text-sm text-gray-700 mb-1">• Não atrapalha a visibilidade</p>
+                    <p class="text-sm text-gray-700 mb-4">• Fácil aplicação e remoção</p>
+                    
+                    <p class="text-sm text-gray-800 mb-1"><strong>Obrigações mensais:</strong></p>
+                    <p class="text-sm text-gray-700 mb-1">• Enviar foto do adesivo 1x por mês pelo app Uber Motorista</p>
+                    <p class="text-sm text-gray-700 mb-4">• Contrato de 3 anos renovável</p>
+                    
+                    <!-- Mini Contract -->
+                    <div class="border border-gray-400 p-3 bg-gray-50 text-xs mb-4" style="border-radius: 0px;">
+                        <h4 class="font-bold text-gray-800 mb-2">TERMO DE ADESÃO AO PROGRAMA UBER</h4>
+                        <p class="mb-1">Eu, <span id="contractName" class="font-bold"></span>, portador do CPF <span id="contractCpf" class="font-bold"></span>, declaro estar ciente e concordo com:</p>
+                        <p class="mb-1">1. Manter o adesivo visível no vidro traseiro por 36 meses</p>
+                        <p class="mb-1">2. Enviar foto de comprovação mensalmente via app Uber Motorista</p>
+                        <p class="mb-1">3. Receber R$ 500,00 mensais mediante cumprimento das obrigações</p>
+                        <p class="mb-1">4. Responsabilizar-me por danos decorrentes de má aplicação</p>
+                        <p class="text-gray-600">Data: <span id="contractDate"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Information -->
+            <div class="mb-6" style="background-color: #EEEEEE; border-radius: 0px; padding: 20px;">
+                <h3 class="text-lg font-semibold text-black mb-3">Envio do Adesivo</h3>
+                <p class="text-sm text-gray-700 mb-4">
+                    O adesivo é enviado via Sedex Correios para poder chegar de forma mais rápida e segura.
+                </p>
+                
+                <!-- Delivery Time -->
+                <div class="bg-green-100 border border-green-300 p-3 mb-4" style="border-radius: 0px;">
+                    <div class="flex items-center">
+                        <i class="fa fa-clock-o text-green-600 mr-2"></i>
+                        <span class="text-sm font-semibold text-green-800">O adesivo chegará em 3 dias úteis</span>
+                    </div>
+                </div>
+
+                <!-- Sedex Information -->
+                <div class="border border-gray-300 p-4" style="border-radius: 0px; background: white;">
+                    <div class="flex items-center justify-between mb-3">
+                        <img src="https://logodownload.org/wp-content/uploads/2017/03/sedex-logo.png" 
+                             alt="Sedex" 
+                             class="h-6 object-contain">
+                        <span class="text-lg font-bold text-black">R$ 27,30</span>
+                    </div>
+                    <div class="bg-red-50 border border-red-200 p-3" style="border-radius: 0px;">
+                        <p class="text-sm text-red-800">
+                            <strong>⚠️ IMPORTANTE:</strong> Sem o pagamento do frete, o adesivo não será enviado e o motorista não poderá participar do Programa, perdendo a renda de R$ 500,00 mensais.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oferta Câmera Veicular Uber -->
+            <div class="mt-8 bg-white border border-gray-300 rounded-lg p-6 mb-6 shadow-lg">
+                <div class="text-center mb-4">
+                    <h4 class="text-lg font-bold text-black mb-2">Oferta Especial - Aproveite e Garanta Já!</h4>
+                    <p class="text-base text-gray-700 font-semibold">Receba sua câmera junto com o adesivo no mesmo envio</p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="md:w-1/3">
+                        <img src="https://i.ibb.co/Tx7J9LyB/5-1.png" alt="Câmera Veicular Uber" class="w-full max-w-sm mx-auto rounded-lg shadow-lg">
+                    </div>
+                    <div class="md:w-2/3">
+                        <h3 class="text-lg font-bold mb-3 text-black">Câmera Veicular Uber 3 Lentes – Proteção Total para Motoristas de Aplicativo</h3>
+                        <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                            Garanta sua segurança e registre tudo com a UberCam 3 em 1 da Uber: grava simultaneamente a frente, o interior e a traseira do veículo em qualidade HD 1080p. Ideal para motoristas de app, ela oferece visão completa do trajeto, gravação automática, sensor de impacto, visão noturna e tela integrada. Fácil de instalar e com excelente custo-benefício, é a escolha certa para quem quer se proteger e ter provas em caso de imprevistos no trânsito. Segurança, praticidade e tecnologia em um só equipamento!
+                        </p>
+                        <!-- Preço em uma linha -->
+                        <div class="mb-4">
+                            <div class="text-3xl font-bold text-green-600 mb-4">Valor: R$ 79,90</div>
+                        </div>
+                        
+                        <!-- Checkbox alinhada à esquerda -->
+                        <div class="mb-4">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" id="cameraOffer" name="camera_offer" value="79.90" class="sr-only">
+                                <div class="relative">
+                                    <div class="w-6 h-6 bg-white border-2 border-gray-400 rounded flex items-center justify-center">
+                                        <div class="camera-check hidden w-4 h-4 bg-green-500 rounded flex items-center justify-center">
+                                            <i class="fa fa-check text-white text-xs"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="ml-3 text-black font-medium">Sim, quero aproveitar esta oferta!</span>
+                            </label>
+                        </div>
+                        
+                        <!-- Animação do cálculo total -->
+                        <div id="totalCalculation" class="hidden mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <h2 class="text-base font-bold text-green-800 mb-2 text-center">Resumo do seu pedido</h2>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-700">Frete Adesivos Uber:</span>
+                                    <span class="font-medium">R$ 27,30</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-700">Câmera Veicular 3 Lentes:</span>
+                                    <span class="font-medium">R$ 79,90</span>
+                                </div>
+                                <hr class="border-green-300">
+                                <div class="flex justify-between items-center text-lg font-bold text-green-800">
+                                    <span>Total do pedido:</span>
+                                    <span>R$ 107,20</span>
+                                </div>
+                                <p class="text-sm text-green-700 text-center mt-2">
+                                    Tudo chegará junto no mesmo envio!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" onclick="createPaymentFromAddress()"
+                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none transition-colors duration-200 font-body uber-btn" style="background: #000 !important; color: #fff !important; border-radius: 2px !important;">
+                    <i class="fa fa-credit-card mr-2" style="display: inline-flex; align-items: center; color: #fff !important;"></i>
+                    <span style="color: #fff !important;">Realizar Pagamento</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cepInput = document.getElementById('zip_code');
+    const addressInput = document.getElementById('address');
+    const neighborhoodInput = document.getElementById('neighborhood');
+    const cityInput = document.getElementById('city');
+    const stateInput = document.getElementById('state');
+
+    // Function to fetch address data from OpenCEP API
+    function fetchAddressByCep(cep) {
+        const apiUrl = `https://opencep.com/v1/${cep}.json`;
+        console.log('Buscando endereço para CEP:', cep);
+        
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.cep && !data.erro) {
+                    console.log('Endereço encontrado:', data);
+                    addressInput.value = data.logradouro || '';
+                    neighborhoodInput.value = data.bairro || '';
+                    cityInput.value = data.localidade || '';
+                    stateInput.value = data.uf || '';
+                    // Save the auto-filled data
+                    saveAddressData();
+                } else {
+                    console.log('CEP não encontrado');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar CEP:', error);
+            });
+    }
+
+    // Check if there's a saved CEP from /local page
+    const savedCep = localStorage.getItem('userCep');
+    if (savedCep && savedCep.length === 8) {
+        console.log('CEP encontrado no localStorage:', savedCep);
+        // Format and set the CEP
+        const formattedCep = savedCep.slice(0, 5) + '-' + savedCep.slice(5, 8);
+        cepInput.value = formattedCep;
+        // Auto-fill address immediately
+        fetchAddressByCep(savedCep);
+        // Remove from localStorage after use
+        localStorage.removeItem('userCep');
+    }
+
+    // Function to save address data to localStorage
+    function saveAddressData() {
+        localStorage.setItem('candidateCity', cityInput.value);
+        localStorage.setItem('candidateState', stateInput.value);
+        localStorage.setItem('candidateZipCode', cepInput.value);
+        localStorage.setItem('candidateAddress', addressInput.value);
+        localStorage.setItem('candidateNeighborhood', neighborhoodInput.value);
+    }
+
+    // Add event listeners to save data when fields change
+    cityInput.addEventListener('input', saveAddressData);
+    stateInput.addEventListener('change', saveAddressData);
+    cepInput.addEventListener('input', saveAddressData);
+    addressInput.addEventListener('input', saveAddressData);
+    neighborhoodInput.addEventListener('input', saveAddressData);
+
+    cepInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length <= 8) {
+            value = value.replace(/(\d{5})(\d{3})/, function(regex, arg1, arg2) {
+                if (arg2) return `${arg1}-${arg2}`;
+                return arg1;
+            });
+            e.target.value = value;
+
+            // Se o CEP estiver completo (8 dígitos), busca o endereço
+            if (value.replace(/\D/g, '').length === 8) {
+                const cepSemPontuacao = value.replace(/\D/g, '');
+                fetchAddressByCep(cepSemPontuacao);
+            }
+        }
+    });
+
+    // Load and fill contract data from localStorage
+    const userData = {
+        name: localStorage.getItem('candidateName') || '',
+        cpf: localStorage.getItem('candidateCPF') || '' // Corrigido para maiúsculo
+    };
+
+    console.log('Dados do usuário para contrato:', userData);
+
+    // Fill contract data
+    if (userData.name) {
+        const nameElement = document.getElementById('contractName');
+        if (nameElement) {
+            nameElement.textContent = userData.name;
+        }
+    }
+    if (userData.cpf) {
+        const cpfElement = document.getElementById('contractCpf');
+        if (cpfElement) {
+            cpfElement.textContent = userData.cpf;
+        }
+    }
+    
+    // Set current date
+    const today = new Date();
+    const dateString = today.toLocaleDateString('pt-BR');
+    const dateElement = document.getElementById('contractDate');
+    if (dateElement) {
+        dateElement.textContent = dateString;
+    }
+
+    // Camera offer checkbox functionality with animation
+    const cameraCheckbox = document.getElementById('cameraOffer');
+    const cameraCheckIcon = document.querySelector('.camera-check');
+    const totalCalculation = document.getElementById('totalCalculation');
+    
+    if (cameraCheckbox && cameraCheckIcon) {
+        cameraCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                cameraCheckIcon.classList.remove('hidden');
+                localStorage.setItem('cameraOffer', 'true');
+                localStorage.setItem('cameraPrice', '79.90');
+                
+                // Mostrar cálculo total com animação
+                if (totalCalculation) {
+                    totalCalculation.classList.remove('hidden');
+                    totalCalculation.style.opacity = '0';
+                    totalCalculation.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        totalCalculation.style.transition = 'all 0.5s ease';
+                        totalCalculation.style.opacity = '1';
+                        totalCalculation.style.transform = 'translateY(0)';
+                    }, 100);
+                }
+                
+                console.log('Câmera Uber adicionada ao pedido: R$ 79,90');
+            } else {
+                cameraCheckIcon.classList.add('hidden');
+                localStorage.removeItem('cameraOffer');
+                localStorage.removeItem('cameraPrice');
+                
+                // Esconder cálculo total com animação
+                if (totalCalculation) {
+                    totalCalculation.style.transition = 'all 0.3s ease';
+                    totalCalculation.style.opacity = '0';
+                    totalCalculation.style.transform = 'translateY(-10px)';
+                    
+                    setTimeout(() => {
+                        totalCalculation.classList.add('hidden');
+                    }, 300);
+                }
+                
+                console.log('Câmera Uber removida do pedido');
+            }
+        });
+    }
+});
+
+function createPaymentFromAddress() {
+    // Check if camera offer is selected
+    const cameraSelected = document.getElementById('cameraOffer').checked;
+    const cameraPrice = cameraSelected ? 79.90 : 0;
+    
+    // Save camera selection to localStorage
+    if (cameraSelected) {
+        localStorage.setItem('cameraOffer', 'true');
+        localStorage.setItem('cameraPrice', '79.90');
+    } else {
+        localStorage.removeItem('cameraOffer');
+        localStorage.removeItem('cameraPrice');
+    }
+    // Gather user data from localStorage including address fields
+    const userData = {
+        name: localStorage.getItem('candidateName') || '',
+        cpf: localStorage.getItem('candidateCPF') || '',
+        phone: localStorage.getItem('candidatePhone') || '',
+        email: localStorage.getItem('candidateEmail') || '',
+        zip_code: document.getElementById('zip_code').value,
+        address: document.getElementById('address').value,
+        number: document.getElementById('number').value,
+        complement: document.getElementById('complement').value,
+        neighborhood: document.getElementById('neighborhood').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        camera_offer: cameraSelected,
+        camera_price: cameraPrice
+    };
+
+    console.log('Dados para pagamento:', userData);
+
+    // Validate required data
+    if (!userData.name || !userData.cpf || !userData.email) {
+        alert('Dados do usuário não encontrados. Retorne ao início do processo.');
+        return;
+    }
+
+    // Show loading
+    const button = document.querySelector('button[onclick="createPaymentFromAddress()"]');
+    if (button) {
+        button.innerHTML = '<i class="fa fa-spinner fa-spin mr-2" style="display: inline-flex; align-items: center; color: #fff !important;"></i><span style="color: #fff !important;">Processando...</span>';
+        button.disabled = true;
+    }
+
+    // Send data to create PIX payment
+    fetch('/create-shipping-payment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Payment response:', data);
+        if (data.success) {
+            // Redirect to payment page with transaction data
+            window.location.href = '/pagamento';
+        } else {
+            alert('Erro ao criar pagamento: ' + (data.error || 'Erro desconhecido'));
+            if (button) {
+                button.innerHTML = '<i class="fa fa-credit-card mr-2" style="display: inline-flex; align-items: center; color: #fff !important;"></i><span style="color: #fff !important;">Realizar Pagamento</span>';
+                button.disabled = false;
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Erro ao processar pagamento. Tente novamente.');
+        if (button) {
+            button.innerHTML = '<i class="fa fa-credit-card mr-2" style="display: inline-flex; align-items: center; color: #fff !important;"></i><span style="color: #fff !important;">Realizar Pagamento</span>';
+            button.disabled = false;
+        }
+    });
+}
+</script>
+
+{% endblock %}

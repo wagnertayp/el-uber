@@ -1,0 +1,209 @@
+{% extends "layout.html" %}
+
+{% block extra_head %}
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "s4nz0u51fp");
+</script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Consulta de Veículo</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Digite a placa do seu veículo para verificar informações</p>
+        <div class="h-1 w-32 bg-black"></div>
+    </div>
+
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-prosegur-black mb-2 font-heading">Verificação de Veículo</h2>
+            <p class="text-prosegur-gray text-sm font-body">
+                Informe a placa do veículo para consultar as informações básicas necessárias para o programa de adesivação.
+            </p>
+        </div>
+
+        <form class="space-y-6 max-w-2xl mx-auto" id="vehicle-form">
+            <div>
+                <label for="placa" class="block text-sm font-medium text-black font-body">Placa do Veículo *</label>
+                <input type="text" id="placa" name="placa" required
+                    placeholder="ABC-1234"
+                    maxlength="8"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring focus:ring-black focus:ring-opacity-50 py-3 pl-4 font-semibold text-gray-700 bg-gray-50 font-body">
+                <p class="mt-1 text-xs text-prosegur-gray font-body">Formato: ABC-1234 (3 letras + 4 números) ou ABC-1D23 (Mercosul)</p>
+            </div>
+
+            <div>
+                <button type="submit"
+                    class="uber-btn" style="background: #000 !important; color: #fff !important; border-radius: 2px !important; width: 100%; padding: 12px 16px; border: none; font-weight: 700;">
+                    <i class="fa fa-search mr-2"></i>Consultar Veículo
+                </button>
+            </div>
+        </form>
+
+        <!-- Loading State -->
+        <div id="loading" class="hidden mt-6 text-center">
+            <div class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-black bg-gray-100">
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Consultando placa...
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="hidden mt-6">
+            <div class="border border-gray-200 p-4 mb-4" style="background-color: #EEEEEE; border-radius: 0px;">
+                <h3 class="text-sm font-semibold text-black mb-3">Informações do Veículo</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600">Modelo</label>
+                        <span id="vehicle-modelo" class="block text-sm font-semibold text-black"></span>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600">Ano</label>
+                        <span id="vehicle-ano" class="block text-sm font-semibold text-black"></span>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600">Chassi</label>
+                        <span id="vehicle-chassi" class="block text-sm font-semibold text-black"></span>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600">Cor</label>
+                        <span id="vehicle-cor" class="block text-sm font-semibold text-black"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Continue Button -->
+            <div class="text-center">
+                <button onclick="window.location.href='/loading_transition?redirect=/local'" 
+                    class="uber-btn" style="background: #000 !important; color: #fff !important; border-radius: 2px !important; padding: 12px 24px; border: none; font-weight: 700;">
+                    <i class="fa fa-arrow-right mr-2"></i>Continuar
+                </button>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error" class="hidden mt-6">
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-center">
+                    <i class="fa fa-exclamation-triangle text-red-600 mr-2"></i>
+                    <span class="text-sm text-red-700" id="error-message"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('vehicle-form');
+    const placaInput = document.getElementById('placa');
+    const loadingDiv = document.getElementById('loading');
+    const resultsDiv = document.getElementById('results');
+    const errorDiv = document.getElementById('error');
+
+    // Format placa input
+    placaInput.addEventListener('input', function(e) {
+        let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        
+        // Format as ABC-1234
+        if (value.length > 3) {
+            value = value.substring(0, 3) + '-' + value.substring(3, 7);
+        }
+        
+        e.target.value = value;
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const placa = placaInput.value.replace(/[^A-Z0-9]/g, '');
+        
+        if (placa.length !== 7) {
+            showError('Por favor, digite uma placa válida');
+            return;
+        }
+
+        consultarVeiculo(placa);
+    });
+
+    function consultarVeiculo(placa) {
+        hideMessages();
+        loadingDiv.classList.remove('hidden');
+
+        // Create proxy request through Flask backend to avoid CORS issues
+        fetch('/api/consulta-veiculo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ placa: placa })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(result => {
+                loadingDiv.classList.add('hidden');
+                console.log('API Response:', result);
+                
+                if (result.success && result.data) {
+                    showResults(result.data);
+                } else {
+                    showError(result.error || 'Placa não encontrada ou dados indisponíveis');
+                }
+            })
+            .catch(error => {
+                loadingDiv.classList.add('hidden');
+                console.error('Erro:', error);
+                showError('Erro ao consultar placa. Verifique a conexão e tente novamente.');
+            });
+    }
+
+    function showResults(data) {
+        document.getElementById('vehicle-modelo').textContent = data.MODELO || 'N/A';
+        document.getElementById('vehicle-ano').textContent = data.ano || 'N/A';
+        document.getElementById('vehicle-chassi').textContent = data.chassi || 'N/A';
+        document.getElementById('vehicle-cor').textContent = data.cor || 'N/A';
+        
+        resultsDiv.classList.remove('hidden');
+        
+        // Save vehicle data to localStorage
+        const vehicleData = {
+            placa: placaInput.value,
+            modelo: data.MODELO,
+            ano: data.ano,
+            chassi: data.chassi,
+            cor: data.cor
+        };
+        localStorage.setItem('vehicleData', JSON.stringify(vehicleData));
+        console.log('Vehicle data saved:', vehicleData);
+    }
+
+    function showError(message) {
+        document.getElementById('error-message').textContent = message;
+        errorDiv.classList.remove('hidden');
+    }
+
+    function hideMessages() {
+        resultsDiv.classList.add('hidden');
+        errorDiv.classList.add('hidden');
+    }
+    
+    function continueToNextStep() {
+        // Redirect to next step - you can change this URL as needed
+        window.location.href = '/address';
+    }
+});
+</script>
+
+{% endblock %}

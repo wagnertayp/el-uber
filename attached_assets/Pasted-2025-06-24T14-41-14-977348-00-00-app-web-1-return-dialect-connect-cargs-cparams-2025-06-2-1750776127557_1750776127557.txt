@@ -1,0 +1,14 @@
+2025-06-24T14:41:14.977348+00:00 app[web.1]:     return dialect.connect(*cargs, **cparams)
+2025-06-24T14:41:14.977450+00:00 app[web.1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-06-24T14:41:14.977450+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+2025-06-24T14:41:14.977568+00:00 app[web.1]:     return self.loaded_dbapi.connect(*cargs, **cparams)
+2025-06-24T14:41:14.977683+00:00 app[web.1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-06-24T14:41:14.977694+00:00 app[web.1]: TypeError: 'connect_timeout' is an invalid keyword argument for Connection()
+2025-06-24T14:41:15.123366+00:00 heroku[web.1]: Process exited with status 1
+2025-06-24T14:41:15.146362+00:00 heroku[web.1]: State changed from starting to crashed
+2025-06-24T14:41:16.591661+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=uber-0f683ccf97b7.herokuapp.com request_id=fcd3c3a3-7751-40c6-a8c6-b2a68b761141 fwd="201.87.253.93" dyno= connect= service= status=503 bytes= protocol=https
+2025-06-24T14:41:16.882227+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=uber-0f683ccf97b7.herokuapp.com request_id=197e012c-aea7-4474-ba76-0bc0c7647240 fwd="201.87.253.93" dyno= connect= service= status=503 bytes= protocol=https
+2025-06-24T14:40:45.425623+00:00 app[api]: Release v4 created by user paulinhomecanico1212@gmail.com
+2025-06-24T14:40:45.425623+00:00 app[api]: Set FOR4_API_KEY config vars by user paulinhomecanico1212@gmail.com
+2025-06-24T14:41:39.627340+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=uber-0f683ccf97b7.herokuapp.com request_id=6418610b-9978-4699-9684-6feba7600271 fwd="201.87.253.93" dyno= connect= service= status=503 bytes= protocol=https
+2025-06-24T14:41:39.868520+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=uber-0f683ccf97b7.herokuapp.com request_id=d8aaafda-e7b8-4b49-a744-e8bd303d1161 fwd="201.87.253.93" dyno= connect= service= status=503 bytes= protocol=https

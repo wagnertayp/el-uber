@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+
+{% block title %}Teste Meta Pixel - Uber{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-white py-8">
+    <div class="max-w-2xl mx-auto px-4">
+        <h1 class="text-3xl font-bold text-black mb-8 text-center">Teste Meta Pixel</h1>
+        
+        <div class="bg-gray-100 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Status dos Pixels</h2>
+            <div id="pixelStatus"></div>
+        </div>
+        
+        <div class="space-y-4">
+            <button onclick="testPageView()" class="w-full bg-blue-600 text-white py-3 px-6 rounded font-medium hover:bg-blue-700">
+                Testar PageView Event
+            </button>
+            
+            <button onclick="testPurchaseEvent()" class="w-full bg-green-600 text-white py-3 px-6 rounded font-medium hover:bg-green-700">
+                Testar Purchase Event
+            </button>
+            
+            <button onclick="testCustomEvent()" class="w-full bg-purple-600 text-white py-3 px-6 rounded font-medium hover:bg-purple-700">
+                Testar Custom Event
+            </button>
+        </div>
+        
+        <div class="mt-8 bg-gray-100 rounded-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Console Log</h2>
+            <div id="consoleLog" class="bg-black text-green-400 p-4 rounded font-mono text-sm h-64 overflow-y-scroll"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Redirect console.log to our display
+const originalLog = console.log;
+const logDisplay = document.getElementById('consoleLog');
+
+function addToLog(message) {
+    const timestamp = new Date().toLocaleTimeString();
+    logDisplay.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+    logDisplay.scrollTop = logDisplay.scrollHeight;
+}
+
+console.log = function(...args) {
+    originalLog.apply(console, args);
+    addToLog(args.join(' '));
+};
+
+// Check pixel status
+function checkPixelStatus() {
+    const statusDiv = document.getElementById('pixelStatus');
+    
+    if (typeof fbq !== 'undefined') {
+        statusDiv.innerHTML = `
+            <div class="text-green-600 font-bold">✅ Facebook Pixel carregado com sucesso</div>
+            <div class="text-sm text-gray-600 mt-2">Pixels configurados: {{ meta_pixel_ids|length }}</div>
+            {% for pixel_id in meta_pixel_ids %}
+            <div class="text-sm text-gray-600">- {{ pixel_id }}</div>
+            {% endfor %}
+        `;
+        console.log('Facebook Pixel status: LOADED');
+        console.log('Configured pixels: {{ meta_pixel_ids|join(", ") }}');
+    } else {
+        statusDiv.innerHTML = '<div class="text-red-600 font-bold">❌ Facebook Pixel não carregado</div>';
+        console.log('Facebook Pixel status: NOT LOADED');
+    }
+    
+    if (typeof ttq !== 'undefined') {
+        console.log('TikTok Pixel status: LOADED');
+    } else {
+        console.log('TikTok Pixel status: NOT LOADED');
+    }
+}
+
+function testPageView() {
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'PageView');
+        console.log('✅ PageView event fired');
+    } else {
+        console.log('❌ Cannot fire PageView - fbq not loaded');
+    }
+}
+
+function testPurchaseEvent() {
+    if (typeof fbq !== 'undefined') {
+        const eventData = {
+            value: 27.30,
+            currency: 'BRL',
+            content_type: 'product',
+            content_ids: ['test-purchase-' + Date.now()],
+            content_name: 'Uber Test Purchase'
+        };
+        
+        const customerData = {
+            em: 'test@example.com',
+            ph: '11999999999',
+            fn: 'teste',
+            ln: 'usuario'
+        };
+        
+        fbq('track', 'Purchase', eventData, customerData);
+        console.log('✅ Purchase event fired');
+        console.log('Event data:', JSON.stringify(eventData));
+        console.log('Customer data:', JSON.stringify(customerData));
+    } else {
+        console.log('❌ Cannot fire Purchase - fbq not loaded');
+    }
+}
+
+function testCustomEvent() {
+    if (typeof fbq !== 'undefined') {
+        fbq('trackCustom', 'UberTestEvent', {
+            test_value: 'success',
+            timestamp: new Date().toISOString()
+        });
+        console.log('✅ Custom UberTestEvent fired');
+    } else {
+        console.log('❌ Cannot fire Custom Event - fbq not loaded');
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    checkPixelStatus();
+    console.log('Teste Meta Pixel carregado');
+});
+</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+/* Font Awesome Icon Fix - Override Uber font for icons */
+.fa, 
+.fa-shield,
+.fa-shield-alt,
+.fa-arrow-right,
+.fa-map-marker,
+.fa-map-marker-alt,
+.fa-facebook,
+.fa-facebook-f,
+.fa-twitter,
+.fa-instagram,
+.fa-chevron-down,
+.fa-search,
+[class*="fa-"], 
+i[class*="fa"],
+.fa:before,
+.fa-shield:before,
+.fa-shield-alt:before,
+.fa-arrow-right:before,
+.fa-map-marker:before,
+.fa-map-marker-alt:before,
+.fa-facebook:before,
+.fa-facebook-f:before,
+.fa-twitter:before,
+.fa-instagram:before,
+.fa-chevron-down:before,
+.fa-search:before,
+[class*="fa-"]:before,
+i[class*="fa"]:before {
+    font-family: FontAwesome !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    text-decoration: inherit !important;
+    speak: none !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    line-height: 1 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    display: inline-block !important;
+}
+
+/* Force FontAwesome on common icons - Font Awesome 4.7.0 compatible */
+.fa-shield:before { content: "\f132"; }
+.fa-arrow-right:before { content: "\f061"; }
+.fa-arrow-left:before { content: "\f060"; }
+.fa-map-marker:before { content: "\f041"; }
+.fa-facebook:before { content: "\f09a"; }
+.fa-twitter:before { content: "\f099"; }
+.fa-instagram:before { content: "\f16d"; }
+.fa-chevron-down:before { content: "\f078"; }
+.fa-chevron-right:before { content: "\f054"; }
+.fa-search:before { content: "\f002"; }
+.fa-home:before { content: "\f015"; }
+.fa-exclamation-triangle:before { content: "\f071"; }
+.fa-certificate:before { content: "\f0a3"; }
+.fa-times:before { content: "\f00d"; }
+.fa-copy:before { content: "\f0c5"; }
+.fa-id-card:before { content: "\f2c2"; }
+.fa-sign-in:before { content: "\f090"; }
+.fa-shield:before { content: "\f132"; }
