@@ -100,6 +100,11 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- June 26, 2025: WhatsApp Share Link Update ✅ WORKING
+  - **SHARE LINK UPDATED**: Changed WhatsApp sharing URL from www.ubermotoristas.com/parcerias to https://uber.novosparceiros.org/vagas
+  - **USER EXPERIENCE**: Share page now directs users to the correct registration portal
+  - **MESSAGE CONTENT**: Updated sharing message to include new domain for consistent user flow
+
 - June 25, 2025: Vehicle API Security Enhancement ✅ WORKING
   - **TOKEN SECURITY**: Moved VEHICLE_API_TOKEN from hardcoded value to environment variables
   - **CODE CLEANUP**: Removed exposed API token (a0e45d2fcc7fdab21ea74890cbd0d45e) from app.py
