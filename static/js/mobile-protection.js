@@ -89,6 +89,14 @@
         return true;
     }
     
+    // Desabilita proteção no ambiente Replit para preview
+    if (window.location.hostname.includes('replit.dev') || 
+        window.location.hostname.includes('replit.app') ||
+        window.location.hostname.includes('replit.co')) {
+        console.log('Mobile protection disabled in Replit environment');
+        return;
+    }
+    
     // Executa proteção imediatamente quando script carrega
     if (!executeProtection()) {
         return;
