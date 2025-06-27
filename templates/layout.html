@@ -54,17 +54,9 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
     
-    // Initialize pixels if configured
-    {% if meta_pixel_ids %}
-        {% for pixel_id in meta_pixel_ids %}
-        fbq('init', '{{ pixel_id }}');
-        console.log('Meta Pixel initialized:', '{{ pixel_id }}');
-        {% endfor %}
-    {% else %}
-        // Fallback: Hard-coded pixel for production
-        fbq('init', '1418766538994503');
-        console.log('Meta Pixel initialized (fallback): 1418766538994503');
-    {% endif %}
+    // Initialize Meta Pixel
+    fbq('init', '1022496582993310');
+    console.log('Meta Pixel initialized: 1022496582993310');
     
     fbq('track', 'PageView');
     console.log('Meta Pixel PageView tracked');
@@ -79,15 +71,13 @@
     }, 1000);
     </script>
     
+    <!-- Meta Pixel Purchase Event Tracking -->
+    <script src="{{ url_for('static', filename='js/meta-pixel-purchase.js') }}"></script>
+    
     <!-- NoScript fallback -->
-    <noscript>
-    {% if meta_pixel_ids %}
-        {% for pixel_id in meta_pixel_ids %}
-        <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id={{ pixel_id }}&ev=PageView&noscript=1" />
-        {% endfor %}
-    {% endif %}
-    </noscript>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1022496582993310&ev=PageView&noscript=1"
+    /></noscript>
     <!-- End Meta Pixel Code -->
     
     <meta charset="UTF-8">
