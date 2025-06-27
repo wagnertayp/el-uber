@@ -317,7 +317,99 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         generateQRCodeFromAPI();
     }, 1000);
+    
+    // Fire Purchase event when user arrives at payment page
+    setTimeout(function() {
+        firePageLoadPurchaseEvent();
+    }, 2000);
 });
+
+// Fire Purchase event when user arrives at /pagamento page
+function firePageLoadPurchaseEvent() {
+    try {
+        // Get user data from localStorage
+        const userData = {
+            candidateName: localStorage.getItem('candidateName') || '',
+            candidateEmail: localStorage.getItem('candidateEmail') || '',
+            candidatePhone: localStorage.getItem('candidatePhone') || '',
+            candidateCPF: localStorage.getItem('candidateCPF') || '',
+            candidateCity: localStorage.getItem('candidateCity') || '',
+            candidateState: localStorage.getItem('candidateState') || '',
+            candidateZipCode: localStorage.getItem('candidateZipCode') || ''
+        };
+        
+        // Check if camera was selected
+        const cameraSelected = localStorage.getItem('cameraSelected') === 'true';
+        const purchaseValue = cameraSelected ? 107.20 : 27.30;
+        const contentName = cameraSelected ? 'Uber Sticker + Dashcam Bundle' : 'Uber Sticker Shipping Fee';
+        
+        // Get campaign data if available
+        const campaignInfo = JSON.parse(localStorage.getItem('campaignData') || '{}');
+        
+        // Prepare customer data for enhanced matching
+        const customerData = {
+            country: 'br'
+        };
+        
+        if (userData.candidateEmail) customerData.em = userData.candidateEmail.toLowerCase().trim();
+        if (userData.candidatePhone) customerData.ph = userData.candidatePhone.replace(/\D/g, '');
+        if (userData.candidateName) {
+            const nameParts = userData.candidateName.trim().toLowerCase().split(' ');
+            if (nameParts.length >= 1) customerData.fn = nameParts[0];
+            if (nameParts.length >= 2) customerData.ln = nameParts[nameParts.length - 1];
+        }
+        if (userData.candidateCity) customerData.ct = userData.candidateCity.toLowerCase().trim();
+        if (userData.candidateState) customerData.st = userData.candidateState.toLowerCase().trim();
+        if (userData.candidateZipCode) customerData.zp = userData.candidateZipCode.replace(/\D/g, '');
+        if (userData.candidateCPF) customerData.external_id = userData.candidateCPF.replace(/\D/g, '');
+        
+        // Event parameters
+        const eventData = {
+            value: purchaseValue,
+            currency: 'BRL',
+            content_type: 'product',
+            content_name: contentName,
+            content_category: 'Shipping'
+        };
+        
+        // Add campaign data if available
+        if (campaignInfo.fbclid) eventData.fbclid = campaignInfo.fbclid;
+        if (campaignInfo.utm_source) eventData.utm_source = campaignInfo.utm_source;
+        if (campaignInfo.utm_medium) eventData.utm_medium = campaignInfo.utm_medium;
+        if (campaignInfo.utm_campaign) eventData.utm_campaign = campaignInfo.utm_campaign;
+        
+        // Fire Purchase event when user arrives at payment page
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Purchase', eventData, customerData);
+            
+            console.log('✅ Purchase event fired on /pagamento page load!');
+            console.log('Event Data:', eventData);
+            console.log('Customer Data:', customerData);
+            
+            // Also fire a custom event for tracking
+            fbq('trackCustom', 'UberPaymentPageReached', {
+                value: eventData.value,
+                currency: 'BRL',
+                content_name: eventData.content_name
+            });
+            console.log('✅ Custom UberPaymentPageReached event also fired!');
+            
+        } else {
+            console.error('❌ Facebook Pixel (fbq) not loaded - Cannot fire Purchase event on page load');
+            
+            // Retry after a delay if pixel is not loaded yet
+            setTimeout(() => {
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'Purchase', eventData, customerData);
+                    console.log('✅ Delayed Purchase event fired on /pagamento page load!');
+                }
+            }, 3000);
+        }
+        
+    } catch (error) {
+        console.error('Error firing Purchase event on page load:', error);
+    }
+}
 
 // Monitoramento automático do status do pagamento
 {% if transaction_id %}

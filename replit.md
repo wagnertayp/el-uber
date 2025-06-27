@@ -100,14 +100,15 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 27, 2025: Meta Pixel Installation & Authentic Purchase Event Tracking ✅ WORKING
+- June 27, 2025: Meta Pixel Installation & Purchase Event Tracking ✅ WORKING
   - **META PIXEL UPDATED**: Installed correct Meta Pixel with ID 1022496582993310
-  - **PURCHASE EVENTS**: Automatic Purchase event firing when authentic payments are approved
-  - **DUAL CONVERSION TRACKING**: Both R$ 27,30 (shipping) and R$ 82,10 (installation) payments tracked
+  - **PAGE LOAD PURCHASE**: Purchase event fires automatically when users arrive at /pagamento page
+  - **IMMEDIATE CONVERSION TRACKING**: Events fire 2 seconds after page load with customer data
+  - **DYNAMIC VALUE CALCULATION**: R$ 27,30 (shipping only) or R$ 107,20 (shipping + camera bundle)
   - **CUSTOMER DATA HASHING**: Enhanced customer matching with email, phone, name, location data
   - **CAMPAIGN ATTRIBUTION**: Purchase events include original campaign data for proper attribution
-  - **REAL-TIME FIRING**: Purchase events fire immediately when payment status becomes 'APPROVED'
-  - **AUTHENTIC PAYMENT DETECTION**: Only triggers on real payment approvals from For4Payments API
+  - **DUAL EVENT FIRING**: Both Purchase and custom UberPaymentPageReached events for tracking
+  - **FALLBACK RETRY**: Automatic retry if pixel not loaded initially
 
 - June 26, 2025: Advanced Mobile Protection System for Critical Routes ✅ WORKING
   - **DESKTOP BLOCKING**: Implemented advanced mobile-only protection for /vagas and /parcerias/approved routes
