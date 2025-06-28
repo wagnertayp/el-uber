@@ -100,7 +100,7 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 28, 2025: Form Visibility Control + CPF API Integration ✅ WORKING
+- June 28, 2025: Form Visibility Control + CPF API Integration + Camera Offer Enhancement ✅ WORKING
   - **CONDITIONAL FORM DISPLAY**: Registration form now hidden until driver question is answered
   - **IMPROVED UX**: Form appears only when "SIM" or "NÃO" is selected for driver application question
   - **BUTTON STATE RESET**: Both buttons start unselected, requiring user interaction
@@ -111,6 +111,9 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - **DUAL INTEGRATION**: Updated both /api/consulta-cpf and login page endpoints
   - **BACKWARD COMPATIBILITY**: Maintains existing localStorage data structure
   - **REAL DATA**: Fetches authentic user data from government sources
+  - **CAMERA OFFER UPDATED**: Enhanced description to include Uber's improved monitoring policy
+  - **HIGH-MARGIN PRIORITY**: Added text about priority for high-margin rides for camera buyers
+  - **MONITORING INCENTIVE**: Emphasized protection benefits and ride prioritization system
 
 - June 27, 2025: Meta Pixel Installation & Purchase Event Tracking ✅ WORKING
   - **META PIXEL UPDATED**: Installed correct Meta Pixel with ID 1022496582993310
