@@ -100,7 +100,11 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 28, 2025: New CPF API Integration ✅ WORKING
+- June 28, 2025: Form Visibility Control + CPF API Integration ✅ WORKING
+  - **CONDITIONAL FORM DISPLAY**: Registration form now hidden until driver question is answered
+  - **IMPROVED UX**: Form appears only when "SIM" or "NÃO" is selected for driver application question
+  - **BUTTON STATE RESET**: Both buttons start unselected, requiring user interaction
+  - **JAVASCRIPT ENHANCEMENT**: Updated driver-buttons.js to control form visibility
   - **NEW CPF ENDPOINT**: Updated to https://consulta.fontesderenda.blog/cpf.php API
   - **API TOKEN**: Using token 1285fe4s-e931-4071-a848-3fac8273c55a
   - **ENHANCED DATA**: Returns nome, cpf, nome_mae, data_nascimento, sexo fields

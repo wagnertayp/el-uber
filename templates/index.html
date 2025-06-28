@@ -139,9 +139,9 @@ button.driver-selector.selected {
                 <h2 class="text-lg font-semibold text-black mb-4 font-heading">Você é motorista de aplicativo?</h2>
                 <div class="flex gap-4 justify-center">
                     <button type="button" id="app-driver-yes" 
-                            class="driver-selector selected px-8 py-2 border-2 font-semibold transition-all duration-200"
+                            class="driver-selector unselected px-8 py-2 border-2 font-semibold transition-all duration-200"
                             onclick="selectDriverType('yes')"
-                            style="border-radius: 0px !important; background-color: #000000 !important; color: #ffffff !important; border-color: #000000 !important; box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1) !important;">
+                            style="border-radius: 0px !important; background-color: #ffffff !important; color: #6b7280 !important; border-color: #d1d5db !important; box-shadow: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8) !important;">
                         SIM
                     </button>
                     <button type="button" id="app-driver-no" 
@@ -155,7 +155,7 @@ button.driver-selector.selected {
             </div>
         </div>
 
-        <form class="space-y-6 max-w-2xl mx-auto" id="registration-form" method="POST" action="{{ url_for('submit_registration') }}">
+        <form class="space-y-6 max-w-2xl mx-auto" id="registration-form" method="POST" action="{{ url_for('submit_registration') }}" style="display: none;">
             <div>
                 <label for="cpf" class="block text-sm font-medium text-black font-body">CPF *</label>
                 <input type="text" id="cpf" name="cpf" required
