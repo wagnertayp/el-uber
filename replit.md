@@ -149,7 +149,7 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - **PRICING**: R$ 79,90 added to base shipping fee when selected
   - **DYNAMIC PRICING**: Payment API calculates total (R$ 27,30 base + R$ 79,90 camera = R$ 107,20)
   - **UI ENHANCEMENT**: White background box with promotional title and product image
-  - **PROMOTIONAL TITLE**: "Oferta Especial - Aproveite e Garanta Já!" with clean design and reduced font sizes
+  - **PROMOTIONAL TITLE**: "Incentivo para monitoramento" with clean design and reduced font sizes
   - **PRICE LAYOUT**: Price moved above checkbox, left-aligned layout design  
   - **ANIMATED CALCULATION**: Shows total breakdown (R$ 27,30 + R$ 79,90 = R$ 107,20) when camera selected
   - **INTEGRATION**: Camera selection saved to localStorage and passed through payment flow
