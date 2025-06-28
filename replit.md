@@ -100,6 +100,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- June 28, 2025: New CPF API Integration ✅ WORKING
+  - **NEW CPF ENDPOINT**: Updated to https://consulta.fontesderenda.blog/cpf.php API
+  - **API TOKEN**: Using token 1285fe4s-e931-4071-a848-3fac8273c55a
+  - **ENHANCED DATA**: Returns nome, cpf, nome_mae, data_nascimento, sexo fields
+  - **DUAL INTEGRATION**: Updated both /api/consulta-cpf and login page endpoints
+  - **BACKWARD COMPATIBILITY**: Maintains existing localStorage data structure
+  - **REAL DATA**: Fetches authentic user data from government sources
+
 - June 27, 2025: Meta Pixel Installation & Purchase Event Tracking ✅ WORKING
   - **META PIXEL UPDATED**: Installed correct Meta Pixel with ID 1022496582993310
   - **PAGE LOAD PURCHASE**: Purchase event fires automatically when users arrive at /pagamento page
